@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c0f1a;--surface:#131726;--card:#1a1f35;--border:#252c45;--accent1:#4f9cf9;--accent2:#f97c4f;--accent3:#4ff9b8;--accent4:#c94ff9;--text:#e8eaf2;--muted:#6b7299;--grid:rgba(255,255,255,0.03);}
+:root{--bg:#0c0f1a;--surface:#131726;--card:#1a1f35;--border:#252c45;--accent1:#4f9cf9;--accent2:#f97c4f;--accent3:#4ff9b8;--accent4:#c94ff9;--text:#e8eaf2;--muted:#a5aed4;--grid:rgba(255,255,255,0.03);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
@@ -78,6 +78,18 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 #tbl-modal-close:hover{background:rgba(249,124,79,.3);}
 #tbl-modal-body{overflow:auto;padding:24px 28px;flex:1;min-height:0;}
 .nc{text-align:right;font-variant-numeric:tabular-nums;}.nh{color:var(--accent1);font-weight:500;}.nw{color:var(--accent2);}.no{color:var(--accent3);}
+.footer-nota{text-align:center;margin-top:40px;padding-top:20px;border-top:1px dashed var(--border);font-size:.72rem;color:var(--muted);letter-spacing:.05em;}
+/* Scrollbars personalizadas para las tablas horizaontales */
+.scroller::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroller::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
+.scroller::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.scroller::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* Estilos para los Radio Buttons / Filtros */
+.radios{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+.radios label{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);cursor:pointer;transition:color .2s;text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
+.radios label:hover{color:var(--text);}
+.radios input[type="radio"]{accent-color:var(--accent1);cursor:pointer;margin:0;width:14px;height:14px;}
 </style>
 </head>
 <body>
@@ -88,9 +100,9 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <p>Citas · Guardias · Técnicos · Análisis anual</p>
   </div>
   <div class="header-right">
-    <div class="stat-pill"><span class="num">1.611</span><span class="lbl">Total citas</span></div>
-    <div class="stat-pill"><span class="num">650</span><span class="lbl">Llamadas guardias</span></div>
-    <div class="stat-pill"><span class="num">7.073</span><span class="lbl">Comunicaciones totales</span></div>
+    <div class="stat-pill"><span class="num">2.477</span><span class="lbl">Total citas</span></div>
+    <div class="stat-pill"><span class="num">931</span><span class="lbl">Llamadas guardias</span></div>
+    <div class="stat-pill"><span class="num">7.290</span><span class="lbl">Comunicaciones totales</span></div>
   </div>
 </header>
 <div class="tnav">
@@ -101,9 +113,9 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 
 <div id="tc-citas" class="tc active">
   <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Mes pico</div><div class="kpi-value">Febrero</div><div class="kpi-sub">859 citas · máximo del año</div></div>
+    <div class="kpi-card"><div class="kpi-label">Mes pico</div><div class="kpi-value">Marzo</div><div class="kpi-sub">866 citas · máximo del año</div></div>
     <div class="kpi-card"><div class="kpi-label">Mes valle</div><div class="kpi-value">Enero</div><div class="kpi-sub">752 citas · mínimo del año</div></div>
-    <div class="kpi-card"><div class="kpi-label">Hora estrella</div><div class="kpi-value">9h</div><div class="kpi-sub">363 citas · 22.5% del total</div></div>
+    <div class="kpi-card"><div class="kpi-label">Hora estrella</div><div class="kpi-value">9h</div><div class="kpi-sub">566 citas · 22.9% del total</div></div>
     <div class="kpi-card"><div class="kpi-label">Día más activo</div><div class="kpi-value">Jueves</div><div class="kpi-sub">Mayor volumen semanal</div></div>
   </div>
   <div class="sl">Distribución temporal</div>
@@ -131,10 +143,10 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 
 <div id="tc-guardias" class="tc">
   <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Total llamadas atendidas</div><div class="kpi-value">650</div><div class="kpi-sub">Suma todos los servicios</div></div>
-    <div class="kpi-card"><div class="kpi-label">Perturbaciones / Rechazos</div><div class="kpi-value">36</div><div class="kpi-sub">5.5% sobre atendidas</div></div>
-    <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">54</div><div class="kpi-sub">Llamadas salientes totales</div></div>
-    <div class="kpi-card"><div class="kpi-label">Servicio más activo</div><div class="kpi-value">FSM</div><div class="kpi-sub">280 atendidas · 43.1%</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total llamadas atendidas</div><div class="kpi-value">931</div><div class="kpi-sub">Suma todos los servicios</div></div>
+    <div class="kpi-card"><div class="kpi-label">Perturbaciones / Rechazos</div><div class="kpi-value">49</div><div class="kpi-sub">5.3% sobre atendidas</div></div>
+    <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">88</div><div class="kpi-sub">Llamadas salientes totales</div></div>
+    <div class="kpi-card"><div class="kpi-label">Servicio más activo</div><div class="kpi-value">FSM</div><div class="kpi-sub">393 atendidas · 42.2%</div></div>
   </div>
   <div class="sl">Métricas por servicio</div>
   <div class="g3e">
@@ -167,37 +179,62 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 
 <div id="tc-tecnicos" class="tc">
   <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Comunicaciones totales</div><div class="kpi-value">7.073</div><div class="kpi-sub">28 técnicos</div></div>
-    <div class="kpi-card"><div class="kpi-label">Llamadas atendidas</div><div class="kpi-value">3.613</div><div class="kpi-sub">51.1% del total</div></div>
-    <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">3.460</div><div class="kpi-sub">48.9% del total</div></div>
-    <div class="kpi-card"><div class="kpi-label">Perturbaciones</div><div class="kpi-value">700</div><div class="kpi-sub">19.4% sobre atendidas</div></div>
+    <div class="kpi-card"><div class="kpi-label">Comunicaciones totales</div><div class="kpi-value">7.290</div><div class="kpi-sub">31 técnicos</div></div>
+    <div class="kpi-card"><div class="kpi-label">Llamadas atendidas</div><div class="kpi-value">5.692</div><div class="kpi-sub">78.1% del total</div></div>
+    <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">5.663</div><div class="kpi-sub">77.7% del total</div></div>
+    <div class="kpi-card"><div class="kpi-label">Perturbaciones</div><div class="kpi-value">973</div><div class="kpi-sub">17.1% sobre atendidas</div></div>
   </div>
   <div class="sl">Actividad</div>
+  
   <div class="cc full" style="animation-delay:.1s;margin-bottom:20px;">
-    <div class="ct">Comunicaciones totales</div><div class="cs">Atendidas + Salientes</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tRk" style="min-width:800px;" height="320"></canvas></div>
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Comunicaciones totales</div><div class="cs" style="margin-bottom:0">Atendidas + Salientes</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="rk_filt" value="all" checked onchange="filtRk(this.value)"> Todas</label>
+            <label><input type="radio" name="rk_filt" value="at" onchange="filtRk(this.value)"> Atendidas</label>
+            <label><input type="radio" name="rk_filt" value="sal" onchange="filtRk(this.value)"> Salientes</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tRk"></canvas></div></div>
   </div>
-  <div class="cc full" style="animation-delay:.15s;margin-bottom:20px;">
-    <div class="ct">Atendidas vs Salientes</div><div class="cs">Comparativa por técnico</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tAS" style="min-width:800px;" height="320"></canvas></div>
-  </div>
+  
   <div class="cc full" style="animation-delay:.2s;margin-bottom:20px;">
     <div class="ct">Perturbaciones / Rechazos</div><div class="cs">🟢 &lt;100 · 🟡 100–199 · 🔴 ≥200</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tPe" style="min-width:800px;" height="320"></canvas></div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tPe"></canvas></div></div>
   </div>
+  
   <div class="cc full" style="animation-delay:.25s;margin-bottom:20px;">
     <div class="ct">Conexión Web vs Móvil</div><div class="cs">Tipo de acceso</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tCx" style="min-width:800px;" height="320"></canvas></div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCx"></canvas></div></div>
   </div>
+  
   <div class="sl">Seguimiento y citas</div>
+  
   <div class="cc full" style="animation-delay:.3s;margin-bottom:20px;">
-    <div class="ct">No-Reply · Faros · Correos</div><div class="cs">Seguimiento por técnico</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tSg" style="min-width:800px;" height="320"></canvas></div>
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">No-Reply · Faros · Correos</div><div class="cs" style="margin-bottom:0">Seguimiento por técnico</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="sg_filt" value="all" checked onchange="filtSg(this.value)"> Todas</label>
+            <label><input type="radio" name="sg_filt" value="nor" onchange="filtSg(this.value)"> No-Reply</label>
+            <label><input type="radio" name="sg_filt" value="far" onchange="filtSg(this.value)"> Faros</label>
+            <label><input type="radio" name="sg_filt" value="cor" onchange="filtSg(this.value)"> Correos</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tSg"></canvas></div></div>
   </div>
+  
   <div class="cc full" style="animation-delay:.35s;margin-bottom:20px;">
-    <div class="ct">Citas Remotas vs Presenciales</div><div class="cs">Por técnico</div>
-    <div class="cw" style="overflow-x:auto;"><canvas id="tCi" style="min-width:800px;" height="320"></canvas></div>
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Citas Remotas vs Presenciales</div><div class="cs" style="margin-bottom:0">Por técnico</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="ci_filt" value="all" checked onchange="filtCi(this.value)"> Todas</label>
+            <label><input type="radio" name="ci_filt" value="crem" onchange="filtCi(this.value)"> Remotas</label>
+            <label><input type="radio" name="ci_filt" value="cpre" onchange="filtCi(this.value)"> Presenciales</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCi"></canvas></div></div>
   </div>
+  
   <div class="sl">Resumen completo</div>
   <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;">
@@ -221,45 +258,50 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
         <button onclick="resetCols()" id="tCR" style="display:none;background:rgba(249,124,79,.15);border:1px solid rgba(249,124,79,.3);color:var(--accent2);border-radius:8px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;">✕ Resetear</button>
       </div>
     </div>
-    <div style="overflow-x:auto;"><table class="at" id="tTbl" style="min-width:300px;"></table></div>
+    <div class="scroller" style="overflow-x:auto;"><table class="at" id="tTbl" style="min-width:300px;"></table></div>
   </div>
 </div>
-</div>
 
+<div class="footer-nota">
+  ℹ️ <strong>Nota aclaratoria:</strong> Los valores aquí representados reflejan aproximadamente entre un 90% y un 95% de la actividad operativa real, debido a la complejidad y anomalías técnicas en la extracción de ciertos registros de origen.
+</div>
+</div> 
 <div id="tbl-modal">
   <div id="tbl-modal-inner">
     <div id="tbl-modal-head">
       <div><div id="tbl-modal-title"></div><div id="tbl-modal-sub"></div></div>
       <button id="tbl-modal-close" onclick="closeTblModal()">✕ Cerrar</button>
     </div>
-    <div id="tbl-modal-body"></div>
+    <div id="tbl-modal-body" class="scroller"></div>
   </div>
 </div>
 
 <script>
 // ── DATOS ──────────────────────────────────────────────────────
-const DATA = {"meses": {"labels": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], "values": [752, 859, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "diasLab": [20, 20, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, "diasSemana": {"labels": ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], "values": [317, 332, 337, 343, 282, 0, 0]}, "horas": {"labels": ["7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h"], "values": [5, 77, 363, 321, 282, 254, 159, 74, 23, 19, 15, 13, 3, 1, 0]}, "topDias": [{"fecha": "13 Ene", "citas": 58}, {"fecha": "27 Ene", "citas": 57}, {"fecha": "23 Feb", "citas": 53}, {"fecha": "25 Feb", "citas": 52}, {"fecha": "18 Feb", "citas": 51}, {"fecha": "26 Feb", "citas": 50}, {"fecha": "19 Ene", "citas": 49}, {"fecha": "17 Feb", "citas": 49}], "heatmap": {"horas": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], "data": [[1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [34, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [174, 189, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [152, 169, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [132, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [113, 141, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [72, 87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [38, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [12, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [10, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [6, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]}};
+const DATA = {"meses": {"labels": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], "values": [752, 859, 866, 0, 0, 0, 0, 0, 0, 0, 0, 0], "diasLab": [20, 20, 22, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, "diasSemana": {"labels": ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], "values": [513, 523, 504, 525, 410, 2, 0]}, "horas": {"labels": ["7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h"], "values": [10, 142, 566, 493, 425, 358, 248, 118, 34, 33, 26, 16, 3, 2, 0]}, "topDias": [{"fecha": "13 Ene", "citas": 58}, {"fecha": "27 Ene", "citas": 57}, {"fecha": "23 Feb", "citas": 53}, {"fecha": "25 Feb", "citas": 52}, {"fecha": "18 Feb", "citas": 51}, {"fecha": "26 Feb", "citas": 50}, {"fecha": "17 Feb", "citas": 49}, {"fecha": "19 Ene", "citas": 49}], "heatmap": {"horas": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], "data": [[1, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0], [34, 43, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0], [174, 189, 203, 0, 0, 0, 0, 0, 0, 0, 0, 0], [152, 169, 172, 0, 0, 0, 0, 0, 0, 0, 0, 0], [132, 150, 143, 0, 0, 0, 0, 0, 0, 0, 0, 0], [113, 141, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0], [72, 87, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0], [38, 36, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0], [12, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0], [10, 9, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0], [6, 9, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 11, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]}};
     DATA.meses.medias = DATA.meses.values.map((v,i) => parseFloat((v/DATA.meses.diasLab[i]).toFixed(1)));
     
-const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, "SALIENTES": 20}, "FEBRERO": {"PERTURBACION": 6, "ATENDIDAS": 113, "SALIENTES": 17}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "RODRIGUEZ AREVALO ALBERTO", "at": 17, "pe": 0, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 25, "pe": 1, "sa": 3}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 32, "pe": 0, "sa": 4}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 36, "pe": 4, "sa": 4}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 43, "pe": 9, "sa": 6}, {"n": "VIVAS LINARES MIGUEL", "at": 22, "pe": 0, "sa": 2}, {"n": "HERRERA PEREZ RAUL", "at": 28, "pe": 0, "sa": 4}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 32, "pe": 1, "sa": 6}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 16, "pe": 1, "sa": 2}, {"n": "FERREIRA DIAS KAIO", "at": 29, "pe": 4, "sa": 6}]}, "GUARDIA": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 78, "SALIENTES": 6}, "FEBRERO": {"PERTURBACION": 7, "ATENDIDAS": 52, "SALIENTES": 2}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "MENDOZA TORREJON DAVID", "at": 1, "pe": 0, "sa": 0}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 27, "pe": 0, "sa": 1}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 30, "pe": 0, "sa": 1}, {"n": "FERREIRA DIAS KAIO", "at": 38, "pe": 0, "sa": 4}, {"n": "RODRIGUEZ AREVALO ALBERTO", "at": 14, "pe": 0, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 8, "pe": 0, "sa": 0}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 12, "pe": 7, "sa": 2}]}, "FSM112": {"monthly": {"ENERO": {"PERTURBACION": 5, "ATENDIDAS": 115, "SALIENTES": 5}, "FEBRERO": {"PERTURBACION": 1, "ATENDIDAS": 62, "SALIENTES": 3}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "FERNANDEZ JIMENO DAVID", "at": 17, "pe": 0, "sa": 3}, {"n": "MENDOZA TORREJON DAVID", "at": 37, "pe": 0, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 20, "pe": 4, "sa": 1}, {"n": "SECA LOPEZ  IRVING", "at": 32, "pe": 1, "sa": 1}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 52, "pe": 1, "sa": 3}, {"n": "RODRIGUEZ MACIZO JUAN ABEL", "at": 13, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 6, "pe": 0, "sa": 0}]}, "GUARDIA112": {"monthly": {"ENERO": {"PERTURBACION": 3, "ATENDIDAS": 32, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 31, "SALIENTES": 1}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "SACRISTAN HITA CARLOS", "at": 22, "pe": 0, "sa": 0}, {"n": "MENDOZA TORREJON DAVID", "at": 6, "pe": 0, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 6, "pe": 2, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 2, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 10, "pe": 1, "sa": 0}, {"n": "MARTIN DEL REY ALVARO", "at": 11, "pe": 0, "sa": 1}, {"n": "VICENTE GOMEZ MANUEL", "at": 6, "pe": 0, "sa": 0}]}, "TOTAL": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": []}};
+const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, "SALIENTES": 20}, "FEBRERO": {"PERTURBACION": 6, "ATENDIDAS": 113, "SALIENTES": 17}, "MARZO": {"PERTURBACION": 3, "ATENDIDAS": 113, "SALIENTES": 20}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "RODRIGUEZ AREVALO ALBERTO", "at": 17, "pe": 0, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 54, "pe": 2, "sa": 8}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 56, "pe": 0, "sa": 10}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 36, "pe": 4, "sa": 4}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 43, "pe": 9, "sa": 6}, {"n": "VIVAS LINARES MIGUEL", "at": 45, "pe": 2, "sa": 5}, {"n": "HERRERA PEREZ RAUL", "at": 55, "pe": 0, "sa": 8}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 32, "pe": 1, "sa": 6}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 26, "pe": 1, "sa": 4}, {"n": "FERREIRA DIAS KAIO", "at": 29, "pe": 4, "sa": 6}]}, "GUARDIA": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 78, "SALIENTES": 6}, "FEBRERO": {"PERTURBACION": 7, "ATENDIDAS": 52, "SALIENTES": 2}, "MARZO": {"PERTURBACION": 1, "ATENDIDAS": 59, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "MENDOZA TORREJON DAVID", "at": 1, "pe": 0, "sa": 0}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 27, "pe": 0, "sa": 1}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 45, "pe": 0, "sa": 1}, {"n": "FERREIRA DIAS KAIO", "at": 38, "pe": 0, "sa": 4}, {"n": "RODRIGUEZ AREVALO ALBERTO", "at": 14, "pe": 0, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 12, "pe": 0, "sa": 0}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 12, "pe": 7, "sa": 2}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 18, "pe": 0, "sa": 5}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 9, "pe": 1, "sa": 0}, {"n": "HERRERA PEREZ RAUL", "at": 13, "pe": 0, "sa": 0}]}, "FSM112": {"monthly": {"ENERO": {"PERTURBACION": 5, "ATENDIDAS": 115, "SALIENTES": 5}, "FEBRERO": {"PERTURBACION": 1, "ATENDIDAS": 62, "SALIENTES": 3}, "MARZO": {"PERTURBACION": 4, "ATENDIDAS": 72, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "FERNANDEZ JIMENO DAVID", "at": 17, "pe": 0, "sa": 3}, {"n": "MENDOZA TORREJON DAVID", "at": 37, "pe": 0, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 30, "pe": 4, "sa": 4}, {"n": "SECA LOPEZ  IRVING", "at": 48, "pe": 1, "sa": 1}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 52, "pe": 1, "sa": 3}, {"n": "RODRIGUEZ MACIZO JUAN ABEL", "at": 13, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 14, "pe": 0, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 22, "pe": 0, "sa": 0}, {"n": "VICENTE GOMEZ MANUEL", "at": 16, "pe": 4, "sa": 2}]}, "GUARDIA112": {"monthly": {"ENERO": {"PERTURBACION": 3, "ATENDIDAS": 32, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 31, "SALIENTES": 1}, "MARZO": {"PERTURBACION": 5, "ATENDIDAS": 37, "SALIENTES": 4}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "SACRISTAN HITA CARLOS", "at": 24, "pe": 0, "sa": 1}, {"n": "MENDOZA TORREJON DAVID", "at": 16, "pe": 3, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 6, "pe": 2, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 2, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 10, "pe": 1, "sa": 0}, {"n": "MARTIN DEL REY ALVARO", "at": 20, "pe": 0, "sa": 4}, {"n": "VICENTE GOMEZ MANUEL", "at": 6, "pe": 0, "sa": 0}, {"n": "FERNANDEZ JIMENO DAVID", "at": 7, "pe": 2, "sa": 0}, {"n": "SECA LOPEZ  IRVING", "at": 1, "pe": 0, "sa": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 8, "pe": 0, "sa": 0}]}, "TOTAL": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": []}};
     const G_COLORS = {"FSM": "#4f9cf9", "GUARDIA": "#f97c4f", "FSM112": "#4ff9b8", "GUARDIA112": "#c94ff9"};
     const G_LABELS = {"FSM": "FSM", "GUARDIA": "Guardia", "FSM112": "FSM 112", "GUARDIA112": "Guardia 112"};
     const MESES_G = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     const MESES_K = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-    const GT_ENTRANTES = {"FSM": {"ENERO": 335, "FEBRERO": 208, "MARZO": 0, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "FSM112": {"ENERO": 16, "FEBRERO": 8, "MARZO": 0, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA": {"ENERO": 91, "FEBRERO": 58, "MARZO": 0, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA112": {"ENERO": 29, "FEBRERO": 29, "MARZO": 0, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}};
+    const GT_ENTRANTES = {"FSM": {"ENERO": 335, "FEBRERO": 208, "MARZO": 252, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "FSM112": {"ENERO": 16, "FEBRERO": 8, "MARZO": 9, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA": {"ENERO": 91, "FEBRERO": 58, "MARZO": 75, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA112": {"ENERO": 29, "FEBRERO": 29, "MARZO": 35, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}};
     
-const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 45, "mov": 0, "pert": 49, "at": 313, "sal": 173, "com": 486, "nor": 260, "far": 201, "cor": 81, "crem": 13, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 30, "mov": 3, "pert": 49, "at": 51, "sal": 55, "com": 106, "nor": 44, "far": 41, "cor": 1, "crem": 0, "cpre": 22}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 30, "mov": 0, "pert": 13, "at": 211, "sal": 396, "com": 607, "nor": 104, "far": 146, "cor": 71, "crem": 87, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 33, "mov": 3, "pert": 5, "at": 162, "sal": 117, "com": 279, "nor": 80, "far": 136, "cor": 69, "crem": 11, "cpre": 38}, {"n": "CÉSAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 33, "mov": 1, "pert": 6, "at": 72, "sal": 92, "com": 164, "nor": 108, "far": 118, "cor": 147, "crem": 33, "cpre": 9}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 17, "mov": 0, "pert": 4, "at": 22, "sal": 28, "com": 50, "nor": 8, "far": 17, "cor": 9, "crem": 0, "cpre": 29}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 38, "mov": 1, "pert": 22, "at": 70, "sal": 90, "com": 160, "nor": 58, "far": 54, "cor": 84, "crem": 9, "cpre": 49}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 31, "mov": 0, "pert": 65, "at": 53, "sal": 81, "com": 134, "nor": 49, "far": 19, "cor": 9, "crem": 11, "cpre": 57}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 23, "mov": 1, "pert": 24, "at": 141, "sal": 133, "com": 274, "nor": 92, "far": 65, "cor": 94, "crem": 25, "cpre": 14}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 41, "mov": 0, "pert": 67, "at": 74, "sal": 59, "com": 133, "nor": 86, "far": 78, "cor": 89, "crem": 12, "cpre": 53}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 43, "mov": 5, "pert": 18, "at": 169, "sal": 190, "com": 359, "nor": 128, "far": 88, "cor": 28, "crem": 10, "cpre": 101}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 39, "mov": 1, "pert": 20, "at": 268, "sal": 110, "com": 378, "nor": 181, "far": 170, "cor": 50, "crem": 6, "cpre": 73}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 33, "mov": 3, "pert": 55, "at": 66, "sal": 26, "com": 92, "nor": 41, "far": 29, "cor": 23, "crem": 5, "cpre": 47}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 23, "mov": 0, "pert": 3, "at": 101, "sal": 116, "com": 217, "nor": 139, "far": 113, "cor": 110, "crem": 11, "cpre": 2}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 33, "mov": 0, "pert": 10, "at": 50, "sal": 74, "com": 124, "nor": 41, "far": 42, "cor": 9, "crem": 2, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 42, "mov": 0, "pert": 8, "at": 330, "sal": 310, "com": 640, "nor": 212, "far": 229, "cor": 38, "crem": 18, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 36, "mov": 7, "pert": 3, "at": 112, "sal": 128, "com": 240, "nor": 61, "far": 48, "cor": 28, "crem": 19, "cpre": 81}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 15, "mov": 1, "pert": 14, "at": 66, "sal": 73, "com": 139, "nor": 41, "far": 22, "cor": 30, "crem": 4, "cpre": 23}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 21, "mov": 2, "pert": 13, "at": 112, "sal": 122, "com": 234, "nor": 45, "far": 62, "cor": 12, "crem": 3, "cpre": 8}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 54, "mov": 7, "pert": 44, "at": 122, "sal": 158, "com": 280, "nor": 125, "far": 104, "cor": 65, "crem": 20, "cpre": 21}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 27, "mov": 2, "pert": 52, "at": 125, "sal": 115, "com": 240, "nor": 139, "far": 71, "cor": 139, "crem": 20, "cpre": 19}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 12, "mov": 25, "pert": 9, "at": 133, "sal": 63, "com": 196, "nor": 41, "far": 50, "cor": 11, "crem": 8, "cpre": 106}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 35, "mov": 3, "pert": 7, "at": 96, "sal": 177, "com": 273, "nor": 174, "far": 140, "cor": 181, "crem": 22, "cpre": 42}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 39, "mov": 5, "pert": 30, "at": 148, "sal": 139, "com": 287, "nor": 107, "far": 93, "cor": 104, "crem": 21, "cpre": 27}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 28, "mov": 3, "pert": 12, "at": 60, "sal": 39, "com": 99, "nor": 32, "far": 33, "cor": 8, "crem": 2, "cpre": 3}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 38, "mov": 0, "pert": 12, "at": 276, "sal": 248, "com": 524, "nor": 252, "far": 252, "cor": 231, "crem": 21, "cpre": 51}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 36, "mov": 13, "pert": 37, "at": 60, "sal": 88, "com": 148, "nor": 76, "far": 64, "cor": 63, "crem": 11, "cpre": 53}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 33, "mov": 2, "pert": 49, "at": 150, "sal": 60, "com": 210, "nor": 90, "far": 112, "cor": 24, "crem": 10, "cpre": 59}];
+const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 68, "mov": 0, "pert": 76, "at": 461, "sal": 276, "com": 486, "nor": 414, "far": 316, "cor": 126, "crem": 18, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 61, "mov": 6, "pert": 60, "at": 88, "sal": 77, "com": 106, "nor": 94, "far": 81, "cor": 1, "crem": 0, "cpre": 42}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 52, "mov": 0, "pert": 24, "at": 372, "sal": 559, "com": 607, "nor": 185, "far": 246, "cor": 118, "crem": 104, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 52, "mov": 5, "pert": 7, "at": 215, "sal": 189, "com": 279, "nor": 135, "far": 197, "cor": 85, "crem": 17, "cpre": 63}, {"n": "CÉSAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 54, "mov": 1, "pert": 9, "at": 106, "sal": 134, "com": 164, "nor": 175, "far": 179, "cor": 278, "crem": 47, "cpre": 16}, {"n": "CHACON GONZALEZ ALVARO (E_ACG394)", "web": 23, "mov": 1, "pert": 1, "at": 14, "sal": 22, "com": 36, "nor": 5, "far": 26, "cor": 2, "crem": 2, "cpre": 5}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 41, "mov": 0, "pert": 8, "at": 64, "sal": 49, "com": 50, "nor": 16, "far": 55, "cor": 10, "crem": 2, "cpre": 64}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 52, "mov": 1, "pert": 30, "at": 103, "sal": 114, "com": 160, "nor": 73, "far": 89, "cor": 93, "crem": 9, "cpre": 57}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 53, "mov": 0, "pert": 85, "at": 102, "sal": 114, "com": 134, "nor": 62, "far": 48, "cor": 10, "crem": 17, "cpre": 94}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 40, "mov": 3, "pert": 30, "at": 238, "sal": 210, "com": 274, "nor": 144, "far": 106, "cor": 144, "crem": 38, "cpre": 21}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 60, "mov": 4, "pert": 67, "at": 99, "sal": 83, "com": 133, "nor": 114, "far": 103, "cor": 121, "crem": 16, "cpre": 81}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 66, "mov": 7, "pert": 20, "at": 249, "sal": 285, "com": 359, "nor": 162, "far": 141, "cor": 36, "crem": 29, "cpre": 145}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 58, "mov": 1, "pert": 26, "at": 381, "sal": 170, "com": 378, "nor": 243, "far": 283, "cor": 70, "crem": 10, "cpre": 101}, {"n": "ISIDRO MATXINANDIARENA GORKA (E_GIM7)", "web": 22, "mov": 0, "pert": 2, "at": 48, "sal": 29, "com": 77, "nor": 20, "far": 39, "cor": 6, "crem": 0, "cpre": 3}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 47, "mov": 6, "pert": 67, "at": 107, "sal": 36, "com": 92, "nor": 65, "far": 49, "cor": 37, "crem": 8, "cpre": 59}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 43, "mov": 1, "pert": 11, "at": 167, "sal": 216, "com": 217, "nor": 234, "far": 210, "cor": 177, "crem": 17, "cpre": 3}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 76, "mov": 2, "pert": 24, "at": 106, "sal": 200, "com": 124, "nor": 112, "far": 99, "cor": 29, "crem": 7, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 58, "mov": 0, "pert": 9, "at": 398, "sal": 591, "com": 640, "nor": 275, "far": 300, "cor": 45, "crem": 42, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 55, "mov": 15, "pert": 7, "at": 174, "sal": 189, "com": 240, "nor": 100, "far": 79, "cor": 47, "crem": 25, "cpre": 100}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 18, "mov": 16, "pert": 14, "at": 133, "sal": 128, "com": 139, "nor": 69, "far": 49, "cor": 63, "crem": 6, "cpre": 29}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 44, "mov": 4, "pert": 24, "at": 249, "sal": 253, "com": 234, "nor": 93, "far": 170, "cor": 14, "crem": 13, "cpre": 10}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 76, "mov": 11, "pert": 66, "at": 182, "sal": 185, "com": 280, "nor": 146, "far": 149, "cor": 72, "crem": 22, "cpre": 38}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 46, "mov": 5, "pert": 79, "at": 216, "sal": 202, "com": 240, "nor": 228, "far": 147, "cor": 188, "crem": 28, "cpre": 26}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 15, "mov": 45, "pert": 26, "at": 234, "sal": 118, "com": 196, "nor": 74, "far": 93, "cor": 15, "crem": 8, "cpre": 141}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 58, "mov": 4, "pert": 10, "at": 138, "sal": 254, "com": 273, "nor": 247, "far": 221, "cor": 252, "crem": 28, "cpre": 62}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 51, "mov": 14, "pert": 37, "at": 255, "sal": 237, "com": 287, "nor": 177, "far": 170, "cor": 164, "crem": 32, "cpre": 41}, {"n": "SOTO CORONADO RAFAEL (E_RSC94)", "web": 28, "mov": 0, "pert": 13, "at": 14, "sal": 90, "com": 104, "nor": 29, "far": 28, "cor": 7, "crem": 2, "cpre": 0}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 57, "mov": 6, "pert": 18, "at": 100, "sal": 94, "com": 99, "nor": 76, "far": 63, "cor": 19, "crem": 2, "cpre": 16}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 61, "mov": 0, "pert": 17, "at": 366, "sal": 336, "com": 524, "nor": 344, "far": 351, "cor": 309, "crem": 33, "cpre": 85}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 56, "mov": 13, "pert": 53, "at": 100, "sal": 145, "com": 148, "nor": 108, "far": 118, "cor": 67, "crem": 15, "cpre": 74}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 51, "mov": 2, "pert": 53, "at": 213, "sal": 78, "com": 210, "nor": 114, "far": 157, "cor": 35, "crem": 13, "cpre": 85}];
 
 // ── CHART.JS ───────────────────────────────────────────────────
 Chart.register(ChartDataLabels);
-Chart.defaults.color='#6b7299';
+Chart.defaults.color='#a5aed4';
 Chart.defaults.font.family="'DM Mono',monospace";
 Chart.defaults.font.size=11;
-const gc='rgba(255,255,255,.05)',tc='#6b7299';
+const gc='rgba(255,255,255,.08)',tc='#b8c0e6';
 const TT={backgroundColor:'#1a1f35',borderColor:'#252c45',borderWidth:1};
-const vDL={display:true,anchor:'end',align:'start',rotation:-90,color:'rgba(255,255,255,.85)',
+
+// Datalabels genéricos para gráficas verticales (Citas y Guardias) que quedan POR ENCIMA de la barra
+const vDL={display:true,anchor:'end',align:'end',offset:4,rotation:-90,color:'rgba(255,255,255,.9)',
   font:{family:"'DM Mono',monospace",size:10,weight:'500'},
-  formatter:v=>v>0?v.toLocaleString('es'):'',padding:{top:6}};
+  formatter:v=>v>0?v.toLocaleString('es'):''};
 
 // ── TABS ───────────────────────────────────────────────────────
 function switchTab(id,btn){
@@ -277,34 +319,38 @@ const mdC=DATA.meses.medias;
 new Chart(document.getElementById('cMes'),{type:'bar',
   data:{labels:DATA.meses.labels,datasets:[
     {type:'bar',label:'Citas',data:DATA.meses.values,
-      backgroundColor:DATA.meses.values.map(v=>{const mx=Math.max(...DATA.meses.values);return `rgba(79,156,249,${.4+.6*(v/mx)})`;}),
-      borderColor:'rgba(79,156,249,.8)',borderWidth:1,borderRadius:6,yAxisID:'y',datalabels:vDL},
+      backgroundColor:DATA.meses.values.map(v=>'rgba(79,156,249,0.4)'),
+      borderColor:'#4f9cf9',borderWidth:2,borderRadius:6,yAxisID:'y',
+      // 1. Números centrados dentro de la barra
+      datalabels: {display:true, anchor:'center', align:'center', rotation:-90, color:'rgba(255,255,255,.9)', font:{family:"'DM Mono',monospace",size:10,weight:'500'}, formatter:v=>v>0?v.toLocaleString('es'):''} },
     {type:'line',label:'Media/día',data:mdC,borderColor:'#f97c4f',backgroundColor:'rgba(249,124,79,.15)',
       borderWidth:2,pointRadius:4,pointBackgroundColor:'#f97c4f',pointBorderColor:'#0c0f1a',pointBorderWidth:2,
       tension:.35,fill:false,yAxisID:'y2',
       datalabels:{display:true,anchor:'end',align:'top',color:'#f97c4f',font:{size:9},formatter:v=>v.toFixed(1),padding:{bottom:2}}}]},
-  options:{responsive:true,layout:{padding:{top:30}},
-    plugins:{legend:{display:true,labels:{color:'#6b7299',font:{size:10},boxWidth:12,padding:16}},tooltip:{...TT},datalabels:{}},
+  options:{responsive:true,layout:{padding:{top:40}},
+    plugins:{legend:{display:true,labels:{color:tc,font:{size:10},boxWidth:12,padding:16}},tooltip:{...TT},datalabels:{}},
     scales:{x:{grid:{color:gc},ticks:{color:tc}},
       y:{grid:{color:gc},ticks:{color:tc}},
       y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'#f97c4f',font:{size:9}}}} }});
 
 new Chart(document.getElementById('cDS'),{type:'bar',
   data:{labels:DATA.diasSemana.labels,datasets:[{label:'Citas',data:DATA.diasSemana.values,
-    backgroundColor:['#4f9cf9','#f97c4f','#4ff9b8','#c94ff9','#f9d84f','#a0a0a0','#606060'],
-    borderRadius:6,borderWidth:0,datalabels:{...vDL,formatter:v=>v>=10?v.toLocaleString('es'):''}}]},
-  options:{responsive:true,layout:{padding:{top:30}},
+    backgroundColor:['rgba(79,156,249,0.4)','rgba(249,124,79,0.4)','rgba(79,249,184,0.4)','rgba(201,79,249,0.4)','rgba(249,216,79,0.4)','rgba(160,160,160,0.4)','rgba(96,96,96,0.4)'],
+    borderColor:['#4f9cf9','#f97c4f','#4ff9b8','#c94ff9','#f9d84f','#a0a0a0','#606060'],
+    borderWidth: 2, borderRadius:6, datalabels:{...vDL,formatter:v=>v>=10?v.toLocaleString('es'):''}}]},
+  options:{responsive:true,layout:{padding:{top:40}},
     plugins:{legend:{display:false},tooltip:{...TT},datalabels:{}},
     scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc}}} }});
 
 const hCtx=document.getElementById('cH').getContext('2d');
 const hG=hCtx.createLinearGradient(0,0,0,300);
-hG.addColorStop(0,'rgba(79,249,184,.8)');hG.addColorStop(.5,'rgba(79,156,249,.6)');hG.addColorStop(1,'rgba(201,79,249,.3)');
+hG.addColorStop(0,'rgba(79,249,184,.4)');hG.addColorStop(.5,'rgba(79,156,249,.4)');hG.addColorStop(1,'rgba(201,79,249,.1)');
 new Chart(hCtx,{type:'bar',
   data:{labels:DATA.horas.labels,datasets:[{label:'Citas',data:DATA.horas.values,
-    backgroundColor:hG,borderColor:'rgba(79,249,184,.5)',borderWidth:1,borderRadius:5,
+    backgroundColor:hG,borderColor:'#4ff9b8',borderWidth:2,borderRadius:5,
     datalabels:{...vDL,formatter:v=>v>=10?v.toLocaleString('es'):''}}]},
-  options:{responsive:true,layout:{padding:{top:30}},
+  options:{responsive:true,layout:{padding:{top:40}},
+    interaction: { mode: 'index', intersect: true }, 
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.parsed.y.toLocaleString('es')} citas (${((ctx.parsed.y/totC)*100).toFixed(1)}%)`}},datalabels:{}},
     scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc}}} }});
 
@@ -314,7 +360,12 @@ new Chart(document.getElementById('cT'),{type:'doughnut',
   data:{labels:['Mañana (7–13h)','Tarde (14–21h)'],
     datasets:[{data:[man,tar],backgroundColor:['rgba(79,249,184,.75)','rgba(201,79,249,.75)'],borderColor:['#4ff9b8','#c94ff9'],borderWidth:2,hoverOffset:8}]},
   options:{responsive:true,cutout:'68%',
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.parsed.toLocaleString('es')} (${((ctx.parsed/totC)*100).toFixed(1)}%)`}},datalabels:{display:false}} }});
+    plugins:{
+      legend:{display:false},
+      tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.parsed.toLocaleString('es')} (${((ctx.parsed/totC)*100).toFixed(1)}%)`}},
+      datalabels:{display:true, color:'rgba(255,255,255,0.95)', font:{size:13,weight:'bold'}, formatter:v=>v>0?v.toLocaleString('es'):''}
+    }
+  }});
 const lrT=document.getElementById('lrT');
 [{l:`Mañana · ${man.toLocaleString('es')}`,c:'#4ff9b8'},{l:`Tarde · ${tar.toLocaleString('es')}`,c:'#c94ff9'}]
   .forEach(d=>lrT.innerHTML+=`<div class="li"><div class="ld" style="background:${d.c}"></div><span>${d.l}</span></div>`);
@@ -337,8 +388,8 @@ const hLg=document.getElementById('hmLeg');
 
 // ── GUARDIAS ──────────────────────────────────────────────────
 function buildG(){
-  const vd={display:true,anchor:'end',align:'start',rotation:-90,color:'rgba(255,255,255,.85)',
-    font:{family:"'DM Mono',monospace",size:9,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):'',padding:{top:4}};
+  const vd={display:true,anchor:'end',align:'end',offset:4,rotation:-90,color:'rgba(255,255,255,.9)',
+    font:{family:"'DM Mono',monospace",size:10,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
 
   const sk=Object.keys(GD);
   function mkBar(id,met,lbl){
@@ -348,7 +399,7 @@ function buildG(){
       data:{labels:sk.map(k=>G_LABELS[k]),datasets:[{label:lbl,data:vs,
         backgroundColor:cs.map(c=>c+'99'),borderColor:cs,borderWidth:2,borderRadius:8,
         datalabels:{...vd,color:cs,font:{family:"'DM Mono',monospace",size:11,weight:'500'}}}]},
-      options:{responsive:true,layout:{padding:{top:32}},
+      options:{responsive:true,layout:{padding:{top:40}},
         plugins:{legend:{display:false},tooltip:{...TT},datalabels:{}},
         scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc},beginAtZero:true}}}});
   }
@@ -383,13 +434,13 @@ function buildG(){
         data: MESES_K.map(m => (GT_ENTRANTES[k]&&GT_ENTRANTES[k][m])||0),
         backgroundColor: [G_COLORS.FSM,G_COLORS.FSM112,G_COLORS.GUARDIA,G_COLORS.GUARDIA112][i]+'99',
         borderColor:     [G_COLORS.FSM,G_COLORS.FSM112,G_COLORS.GUARDIA,G_COLORS.GUARDIA112][i],
-        borderWidth: 1, borderRadius: 4,
+        borderWidth: 2, borderRadius: 4,
         datalabels: {...vDL, formatter: v => v > 0 ? v.toLocaleString('es') : ''}
       }))
     },
     options: {
       responsive:true, maintainAspectRatio:false,
-      layout:{padding:{top:16}},
+      layout:{padding:{top:40}},
       plugins:{
         legend:{display:true,labels:{color:tc,font:{size:10},boxWidth:10,padding:12}},
         tooltip:{...TT},
@@ -404,47 +455,96 @@ function buildG(){
 }
 
 // ── TÉCNICOS ──────────────────────────────────────────────────
+// Referencias globales para actualizar gráficos
+window.chartRk = null;
+window.chartSg = null;
+window.chartCi = null;
+
 function buildT(){
-  const vd={display:true,anchor:'end',align:'start',rotation:-90,color:'rgba(255,255,255,.85)',font:{family:"'DM Mono',monospace",size:8,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):'',padding:{top:4}};
-  const vi={display:true,anchor:'center',align:'center',rotation:-90,color:'rgba(255,255,255,.8)',font:{family:"'DM Mono',monospace",size:7,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
-  const so=()=>{return{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28}},
+  // Datalabels para barras horizontales
+  const vi={display:true,anchor:'center',align:'center',rotation:0,color:'rgba(255,255,255,.95)',font:{family:"'DM Mono',monospace",size:11,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
+  const vd={display:true,anchor:'end',align:'end',offset:4,rotation:0,color:'rgba(255,255,255,.9)',font:{family:"'DM Mono',monospace",size:11,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
+  
+  // Opciones para barras apiladas (Stacked) horizontales
+  const so=()=>{return{responsive:true,maintainAspectRatio:false,indexAxis:'y',layout:{padding:{right:40}},
     plugins:{legend:{display:true,labels:{color:tc,font:{size:10},boxWidth:10,padding:12}},tooltip:{...TT},datalabels:{}},
-    scales:{x:{stacked:true,grid:{color:gc},ticks:{color:'#e8eaf2',font:{size:11},maxRotation:45,minRotation:30}},y:{stacked:true,grid:{color:gc},ticks:{color:tc},beginAtZero:true}}};}
-  const uo=()=>{return{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28}},
+    scales:{x:{stacked:true,grid:{color:gc},ticks:{color:tc,font:{size:11}},beginAtZero:true},y:{stacked:true,grid:{color:gc},ticks:{color:'#e8eaf2',font:{size:11}}}}};}
+  
+  // Opciones para barras horizontales normales
+  const uo=()=>{return{responsive:true,maintainAspectRatio:false,indexAxis:'y',layout:{padding:{right:40}},
     plugins:{legend:{display:true,labels:{color:tc,font:{size:10},boxWidth:10,padding:12}},tooltip:{...TT},datalabels:{}},
-    scales:{x:{grid:{color:gc},ticks:{color:'#e8eaf2',font:{size:11},maxRotation:45,minRotation:30}},y:{grid:{color:gc},ticks:{color:tc},beginAtZero:true}}};}
+    scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:11}},beginAtZero:true},y:{grid:{color:gc},ticks:{color:'#e8eaf2',font:{size:11}}}}};}
 
+  // 1. Gráfica Comunicaciones (Filtros: at, sal)
   const sC=[...TD].sort((a,b)=>b.com-a.com);
-  new Chart(document.getElementById('tRk'),{type:'bar',data:{labels:sC.map(d=>d.n),datasets:[
-    {label:'Atendidas',data:sC.map(d=>d.at),backgroundColor:'rgba(79,156,249,.8)',borderRadius:3,stack:'c',datalabels:{...vi}},
-    {label:'Salientes',data:sC.map(d=>d.sal),backgroundColor:'rgba(79,249,184,.65)',borderRadius:3,stack:'c',datalabels:{...vi}}]},options:so()});
+  window.chartRk = new Chart(document.getElementById('tRk'),{type:'bar',data:{labels:sC.map(d=>d.n),datasets:[
+    {label:'Atendidas',data:sC.map(d=>d.at),backgroundColor:'rgba(79,156,249,.8)',borderColor:'#4f9cf9',borderWidth:1,borderRadius:3,stack:'c',datalabels:vi},
+    {label:'Salientes',data:sC.map(d=>d.sal),backgroundColor:'rgba(79,249,184,.65)',borderColor:'#4ff9b8',borderWidth:1,borderRadius:3,stack:'c',datalabels:vi}]},options:so()});
 
-  const sA=[...TD].sort((a,b)=>b.at-a.at);
-  new Chart(document.getElementById('tAS'),{type:'bar',data:{labels:sA.map(d=>d.n),datasets:[
-    {label:'Atendidas',data:sA.map(d=>d.at),backgroundColor:'rgba(79,156,249,.85)',borderRadius:3,datalabels:{...vd}},
-    {label:'Salientes',data:sA.map(d=>d.sal),backgroundColor:'rgba(79,249,184,.7)',borderRadius:3,datalabels:{...vd}}]},options:uo()});
+  // Función Filtro Comunicaciones
+  window.filtRk = function(val) {
+    let sorted = [...TD];
+    if(val==='all') sorted.sort((a,b)=>b.com-a.com);
+    else sorted.sort((a,b)=>b[val]-a[val]);
+    chartRk.data.labels = sorted.map(d=>d.n);
+    let ds = [];
+    if(val==='all' || val==='at') ds.push({label:'Atendidas', data:sorted.map(d=>d.at), backgroundColor:'rgba(79,156,249,.8)', borderColor:'#4f9cf9', borderWidth:1, borderRadius:3, stack:'c', datalabels:vi});
+    if(val==='all' || val==='sal') ds.push({label:'Salientes', data:sorted.map(d=>d.sal), backgroundColor:'rgba(79,249,184,.65)', borderColor:'#4ff9b8', borderWidth:1, borderRadius:3, stack:'c', datalabels:vi});
+    chartRk.data.datasets = ds;
+    chartRk.update();
+  };
 
+  // Perturbaciones (No cambia)
   const sP=[...TD].sort((a,b)=>b.pert-a.pert);
   const oP={...uo(),plugins:{...uo().plugins,legend:{display:false}}};
   new Chart(document.getElementById('tPe'),{type:'bar',data:{labels:sP.map(d=>d.n),datasets:[{label:'Perturb.',data:sP.map(d=>d.pert),
     backgroundColor:sP.map(d=>d.pert>=200?'rgba(249,124,79,.85)':d.pert>=100?'rgba(249,216,79,.8)':'rgba(79,249,184,.7)'),
-    borderRadius:3,datalabels:{...vd,color:sP.map(d=>d.pert>=200?'#f97c4f':d.pert>=100?'#f9d84f':'#4ff9b8')}}]},options:oP});
+    borderColor:sP.map(d=>d.pert>=200?'#f97c4f':d.pert>=100?'#f9d84f':'#4ff9b8'),
+    borderWidth:1, borderRadius:3,datalabels:{...vd,color:sP.map(d=>d.pert>=200?'#f97c4f':d.pert>=100?'#f9d84f':'#4ff9b8')}}]},options:oP});
 
+  // Web vs Móvil (No cambia)
   const sW=[...TD].sort((a,b)=>(b.web+b.mov)-(a.web+a.mov));
   new Chart(document.getElementById('tCx'),{type:'bar',data:{labels:sW.map(d=>d.n),datasets:[
-    {label:'Web',data:sW.map(d=>d.web),backgroundColor:'rgba(79,156,249,.85)',stack:'cx',borderRadius:3,datalabels:{...vi}},
-    {label:'Móvil',data:sW.map(d=>d.mov),backgroundColor:'rgba(201,79,249,.75)',stack:'cx',borderRadius:3,datalabels:{...vi}}]},options:so()});
+    {label:'Web',data:sW.map(d=>d.web),backgroundColor:'rgba(79,156,249,.85)',borderColor:'#4f9cf9',borderWidth:1,stack:'cx',borderRadius:3,datalabels:vi},
+    {label:'Móvil',data:sW.map(d=>d.mov),backgroundColor:'rgba(201,79,249,.75)',borderColor:'#c94ff9',borderWidth:1,stack:'cx',borderRadius:3,datalabels:vi}]},options:so()});
 
+  // 2. Seguimiento (Filtros: nor, far, cor)
   const sN=[...TD].sort((a,b)=>(b.nor+b.far+b.cor)-(a.nor+a.far+a.cor));
-  new Chart(document.getElementById('tSg'),{type:'bar',data:{labels:sN.map(d=>d.n),datasets:[
-    {label:'No-Reply',data:sN.map(d=>d.nor),backgroundColor:'rgba(249,124,79,.8)',stack:'sg',borderRadius:3,datalabels:{...vi}},
-    {label:'Faros',data:sN.map(d=>d.far),backgroundColor:'rgba(249,216,79,.75)',stack:'sg',borderRadius:3,datalabels:{...vi}},
-    {label:'Correos',data:sN.map(d=>d.cor),backgroundColor:'rgba(79,249,184,.7)',stack:'sg',borderRadius:3,datalabels:{...vi}}]},options:so()});
+  window.chartSg = new Chart(document.getElementById('tSg'),{type:'bar',data:{labels:sN.map(d=>d.n),datasets:[
+    {label:'No-Reply',data:sN.map(d=>d.nor),backgroundColor:'rgba(249,124,79,.8)',borderColor:'#f97c4f',borderWidth:1,stack:'sg',borderRadius:3,datalabels:vi},
+    {label:'Faros',data:sN.map(d=>d.far),backgroundColor:'rgba(249,216,79,.75)',borderColor:'#f9d84f',borderWidth:1,stack:'sg',borderRadius:3,datalabels:vi},
+    {label:'Correos',data:sN.map(d=>d.cor),backgroundColor:'rgba(79,249,184,.7)',borderColor:'#4ff9b8',borderWidth:1,stack:'sg',borderRadius:3,datalabels:vi}]},options:so()});
 
+  window.filtSg = function(val) {
+    let sorted = [...TD];
+    if(val==='all') sorted.sort((a,b)=>(b.nor+b.far+b.cor)-(a.nor+a.far+a.cor));
+    else sorted.sort((a,b)=>b[val]-a[val]);
+    chartSg.data.labels = sorted.map(d=>d.n);
+    let ds = [];
+    if(val==='all' || val==='nor') ds.push({label:'No-Reply', data:sorted.map(d=>d.nor), backgroundColor:'rgba(249,124,79,.8)', borderColor:'#f97c4f', borderWidth:1, stack:'sg', borderRadius:3, datalabels:vi});
+    if(val==='all' || val==='far') ds.push({label:'Faros', data:sorted.map(d=>d.far), backgroundColor:'rgba(249,216,79,.75)', borderColor:'#f9d84f', borderWidth:1, stack:'sg', borderRadius:3, datalabels:vi});
+    if(val==='all' || val==='cor') ds.push({label:'Correos', data:sorted.map(d=>d.cor), backgroundColor:'rgba(79,249,184,.7)', borderColor:'#4ff9b8', borderWidth:1, stack:'sg', borderRadius:3, datalabels:vi});
+    chartSg.data.datasets = ds;
+    chartSg.update();
+  };
+
+  // 3. Citas (Filtros: crem, cpre)
   const sCi=[...TD].sort((a,b)=>(b.crem+b.cpre)-(a.crem+a.cpre));
-  new Chart(document.getElementById('tCi'),{type:'bar',data:{labels:sCi.map(d=>d.n),datasets:[
-    {label:'Remotas',data:sCi.map(d=>d.crem),backgroundColor:'rgba(79,249,184,.8)',stack:'ci',borderRadius:3,datalabels:{...vi}},
-    {label:'Presenciales',data:sCi.map(d=>d.cpre),backgroundColor:'rgba(79,156,249,.75)',stack:'ci',borderRadius:3,datalabels:{...vi}}]},options:so()});
+  window.chartCi = new Chart(document.getElementById('tCi'),{type:'bar',data:{labels:sCi.map(d=>d.n),datasets:[
+    {label:'Remotas',data:sCi.map(d=>d.crem),backgroundColor:'rgba(79,249,184,.8)',borderColor:'#4ff9b8',borderWidth:1,stack:'ci',borderRadius:3,datalabels:vi},
+    {label:'Presenciales',data:sCi.map(d=>d.cpre),backgroundColor:'rgba(79,156,249,.75)',borderColor:'#4f9cf9',borderWidth:1,stack:'ci',borderRadius:3,datalabels:vi}]},options:so()});
+
+  window.filtCi = function(val) {
+    let sorted = [...TD];
+    if(val==='all') sorted.sort((a,b)=>(b.crem+b.cpre)-(a.crem+a.cpre));
+    else sorted.sort((a,b)=>b[val]-a[val]);
+    chartCi.data.labels = sorted.map(d=>d.n);
+    let ds = [];
+    if(val==='all' || val==='crem') ds.push({label:'Remotas', data:sorted.map(d=>d.crem), backgroundColor:'rgba(79,249,184,.8)', borderColor:'#4ff9b8', borderWidth:1, stack:'ci', borderRadius:3, datalabels:vi});
+    if(val==='all' || val==='cpre') ds.push({label:'Presenciales', data:sorted.map(d=>d.cpre), backgroundColor:'rgba(79,156,249,.75)', borderColor:'#4f9cf9', borderWidth:1, stack:'ci', borderRadius:3, datalabels:vi});
+    chartCi.data.datasets = ds;
+    chartCi.update();
+  };
 
   const COLS=[
     {k:'web',l:'Conexión Web',      p:'web', c:'var(--accent1)'},
@@ -460,12 +560,20 @@ function buildT(){
     {k:'cpre',l:'Citas Presenciales',p:'cpre',c:'var(--accent1)'},
   ];
   let vis=new Set(COLS.map(c=>c.k));
-  const sT=[...TD].sort((a,b)=>b.com-a.com);const mxCom=sT[0]?.com||1;
 
   function rTbl(){
     const cs=COLS.filter(c=>vis.has(c.k));
+    let sKey = 'com'; 
+    if(vis.size === 1) {
+      const sc = COLS.find(c => c.k === Array.from(vis)[0]);
+      if(sc) sKey = sc.p; 
+    }
+    
+    const sT=[...TD].sort((a,b)=>b[sKey]-a[sKey]);
+    const mxV=sT[0]?.[sKey]||1; 
+
     document.getElementById('tTbl').innerHTML='<thead><tr><th>#</th><th>Técnico</th>'+cs.map(c=>`<th class="nc" style="color:${c.c}">${c.l}</th>`).join('')+'<th style="width:70px">Rel.</th></tr></thead><tbody>'+
-      sT.map((d,i)=>`<tr><td class="rank">${i+1}</td><td style="font-weight:500">${d.n}</td>`+cs.map(c=>{let cl='nc';if(c.k==='pert')cl+=d.pert>=200?' nw':d.pert>=100?' ':' no';return `<td class="${cl}" style="color:${c.c}">${d[c.p].toLocaleString('es')}</td>`;}).join('')+`<td><div class="bm"><div class="bmf" style="width:${(d.com/mxCom*100).toFixed(0)}%"></div></div></td></tr>`).join('')+'</tbody>';
+      sT.map((d,i)=>`<tr><td class="rank">${i+1}</td><td style="font-weight:500">${d.n}</td>`+cs.map(c=>{let cl='nc';if(c.k==='pert')cl+=d.pert>=200?' nw':d.pert>=100?' ':' no';return `<td class="${cl}" style="color:${c.c}">${d[c.p].toLocaleString('es')}</td>`;}).join('')+`<td><div class="bm"><div class="bmf" style="width:${(d[sKey]/mxV*100).toFixed(0)}%"></div></div></td></tr>`).join('')+'</tbody>';
   }
   function rOpts(){
     document.getElementById('tCO').innerHTML=COLS.map(c=>`<label style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;" onmouseenter="this.style.background='rgba(79,156,249,.08)'" onmouseleave="this.style.background='transparent'">
@@ -512,6 +620,8 @@ function buildT(){
     const tbl = card.querySelector('table');
     if (tbl){
       body.innerHTML = `<table class="${tbl.className}" style="width:100%;font-size:.9rem;">${tbl.innerHTML}</table>`;
+      body.style.overflowY = 'auto';
+      body.style.overflowX = 'auto';
     } else {
       const srcCanvas = card.querySelector('canvas');
       if (srcCanvas){
@@ -521,12 +631,22 @@ function buildT(){
         if (_modalChart){ _modalChart.destroy(); _modalChart = null; }
 
         const wrap = document.createElement('div');
-        wrap.style.cssText = 'position:relative;width:100%;height:calc(90vh - 140px);';
+        const isHoriz = srcChart.config.options.indexAxis === 'y';
+        
+        if (isHoriz) {
+            wrap.style.cssText = `position:relative;width:100%;height:1200px;`;
+            body.style.overflowY = 'auto';
+            body.style.overflowX = 'hidden';
+        } else {
+            wrap.style.cssText = `position:relative;width:100%;height:calc(90vh - 140px);`;
+            body.style.overflowY = 'hidden';
+            body.style.overflowX = 'auto';
+        }
+
         const newCanvas = document.createElement('canvas');
         wrap.appendChild(newCanvas);
         body.appendChild(wrap);
 
-        // Referenciar datos y opciones directamente (no clonar con JSON: pierde funciones)
         const origData = srcChart.config.data;
         const origOpts = srcChart.config.options;
 
@@ -555,7 +675,6 @@ function buildT(){
 
   function attachExpand(card){
     if (!canExpand(card)) return;
-    // Solo técnicos para canvas; tablas en todas las pestañas
     const canvas = card.querySelector('canvas');
     if (canvas && !isInTecnicos(card)) return;
     if (card.classList.contains('tbl-expand')) return;
@@ -564,7 +683,8 @@ function buildT(){
     card.style.position = 'relative';
     card.style.cursor   = 'pointer';
     card.addEventListener('click', e=>{
-      if (!e.target.closest('input,button,a')) openModal(card);
+      // Se ignora el click si se pulsa sobre un radio button (input) o su label
+      if (!e.target.closest('input,button,a,#tCB,#tCP,label')) openModal(card);
     });
   }
 
