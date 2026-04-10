@@ -67,16 +67,22 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 .tbl-expand{cursor:pointer;}
 .tbl-expand::after{content:'⛶';position:absolute;top:14px;right:16px;font-size:.9rem;color:var(--muted);opacity:.5;transition:opacity .2s;}
 .tbl-expand:hover::after{opacity:1;color:var(--accent1);}
-#tbl-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,10,20,.92);backdrop-filter:blur(6px);animation:fadeIn .2s ease;}
-#tbl-modal.open{display:flex;flex-direction:column;}
+
+/* Modales */
+#tbl-modal, #tech-modal {display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,10,20,.92);backdrop-filter:blur(6px);animation:fadeIn .2s ease;}
+#tbl-modal.open, #tech-modal.open {display:flex;flex-direction:column;justify-content:center;align-items:center;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-#tbl-modal-inner{margin:auto;width:96vw;max-height:90vh;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);}
-#tbl-modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-bottom:1px solid var(--border);flex-shrink:0;}
-#tbl-modal-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);}
-#tbl-modal-sub{font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
-#tbl-modal-close{background:rgba(249,124,79,.15);border:1px solid rgba(249,124,79,.3);color:var(--accent2);border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;flex-shrink:0;transition:background .2s;}
-#tbl-modal-close:hover{background:rgba(249,124,79,.3);}
-#tbl-modal-body{overflow:auto;padding:24px 28px;flex:1;min-height:0;}
+#tbl-modal-inner, #tech-modal-inner {margin:auto;width:96vw;max-height:90vh;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+#tech-modal-inner { max-width: 900px; width:90vw; }
+#tbl-modal-head, #tech-modal-head {display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-bottom:1px solid var(--border);flex-shrink:0;gap:16px;}
+#tbl-modal-title, #tech-modal-title {font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);}
+#tbl-modal-sub, #tech-modal-sub {font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+#tbl-modal-close, #tech-modal-close {background:rgba(249,124,79,.15);border:1px solid rgba(249,124,79,.3);color:var(--accent2);border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;flex-shrink:0;transition:background .2s;}
+#tbl-modal-close:hover, #tech-modal-close:hover {background:rgba(249,124,79,.3);}
+#tech-modal-download {background:rgba(79,249,184,.15);border:1px solid rgba(79,249,184,.3);color:var(--accent3);border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;flex-shrink:0;transition:background .2s;}
+#tech-modal-download:hover {background:rgba(79,249,184,.3);}
+#tbl-modal-body, #tech-modal-body {overflow:auto;padding:24px 28px;flex:1;min-height:0;}
+
 .nc{text-align:right;font-variant-numeric:tabular-nums;}.nh{color:var(--accent1);font-weight:500;}.nw{color:var(--accent2);}.no{color:var(--accent3);}
 .footer-nota{text-align:center;margin-top:40px;padding-top:20px;border-top:1px dashed var(--border);font-size:.72rem;color:var(--muted);letter-spacing:.05em;}
 /* Scrollbars personalizadas para las tablas horizaontales */
@@ -90,6 +96,10 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 .radios label{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);cursor:pointer;transition:color .2s;text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
 .radios label:hover{color:var(--text);}
 .radios input[type="radio"]{accent-color:var(--accent1);cursor:pointer;margin:0;width:14px;height:14px;}
+
+/* Estilo hover para filas de técnicos */
+.tech-row { cursor: pointer; transition: background 0.2s; }
+.tech-row:hover td { background: rgba(79,156,249,.1) !important; }
 </style>
 </head>
 <body>
@@ -184,61 +194,11 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">5.663</div><div class="kpi-sub">77.7% del total</div></div>
     <div class="kpi-card"><div class="kpi-label">Perturbaciones</div><div class="kpi-value">973</div><div class="kpi-sub">17.1% sobre atendidas</div></div>
   </div>
-  <div class="sl">Actividad</div>
-  
-  <div class="cc full" style="animation-delay:.1s;margin-bottom:20px;">
-    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
-        <div><div class="ct">Comunicaciones totales</div><div class="cs" style="margin-bottom:0">Atendidas + Salientes</div></div>
-        <div class="radios" onclick="event.stopPropagation()">
-            <label><input type="radio" name="rk_filt" value="all" checked onchange="filtRk(this.value)"> Todas</label>
-            <label><input type="radio" name="rk_filt" value="at" onchange="filtRk(this.value)"> Atendidas</label>
-            <label><input type="radio" name="rk_filt" value="sal" onchange="filtRk(this.value)"> Salientes</label>
-        </div>
-    </div>
-    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tRk"></canvas></div></div>
-  </div>
-  
-  <div class="cc full" style="animation-delay:.2s;margin-bottom:20px;">
-    <div class="ct">Perturbaciones / Rechazos</div><div class="cs">🟢 &lt;100 · 🟡 100–199 · 🔴 ≥200</div>
-    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tPe"></canvas></div></div>
-  </div>
-  
-  <div class="cc full" style="animation-delay:.25s;margin-bottom:20px;">
-    <div class="ct">Conexión Web vs Móvil</div><div class="cs">Tipo de acceso</div>
-    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCx"></canvas></div></div>
-  </div>
-  
-  <div class="sl">Seguimiento y citas</div>
-  
-  <div class="cc full" style="animation-delay:.3s;margin-bottom:20px;">
-    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
-        <div><div class="ct">No-Reply · Faros · Correos</div><div class="cs" style="margin-bottom:0">Seguimiento por técnico</div></div>
-        <div class="radios" onclick="event.stopPropagation()">
-            <label><input type="radio" name="sg_filt" value="all" checked onchange="filtSg(this.value)"> Todas</label>
-            <label><input type="radio" name="sg_filt" value="nor" onchange="filtSg(this.value)"> No-Reply</label>
-            <label><input type="radio" name="sg_filt" value="far" onchange="filtSg(this.value)"> Faros</label>
-            <label><input type="radio" name="sg_filt" value="cor" onchange="filtSg(this.value)"> Correos</label>
-        </div>
-    </div>
-    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tSg"></canvas></div></div>
-  </div>
-  
-  <div class="cc full" style="animation-delay:.35s;margin-bottom:20px;">
-    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
-        <div><div class="ct">Citas Remotas vs Presenciales</div><div class="cs" style="margin-bottom:0">Por técnico</div></div>
-        <div class="radios" onclick="event.stopPropagation()">
-            <label><input type="radio" name="ci_filt" value="all" checked onchange="filtCi(this.value)"> Todas</label>
-            <label><input type="radio" name="ci_filt" value="crem" onchange="filtCi(this.value)"> Remotas</label>
-            <label><input type="radio" name="ci_filt" value="cpre" onchange="filtCi(this.value)"> Presenciales</label>
-        </div>
-    </div>
-    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCi"></canvas></div></div>
-  </div>
   
   <div class="sl">Resumen completo</div>
-  <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.1s;margin-bottom:20px;">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;">
-      <div><div class="ct">Tabla de métricas</div><div class="cs">Selecciona columnas a mostrar</div></div>
+      <div><div class="ct">Tabla de métricas</div><div class="cs">Selecciona columnas a mostrar (Clic en técnico para resumen)</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="position:relative;">
           <div id="tCB" onclick="toggleTCol()" style="cursor:pointer;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:.75rem;color:var(--text);user-select:none;white-space:nowrap;">
@@ -260,12 +220,64 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     </div>
     <div class="scroller" style="overflow-x:auto;"><table class="at" id="tTbl" style="min-width:300px;"></table></div>
   </div>
+
+  <div class="sl">Actividad</div>
+  
+  <div class="cc full" style="animation-delay:.2s;margin-bottom:20px;">
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Comunicaciones totales</div><div class="cs" style="margin-bottom:0">Atendidas + Salientes</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="rk_filt" value="all" checked onchange="filtRk(this.value)"> Todas</label>
+            <label><input type="radio" name="rk_filt" value="at" onchange="filtRk(this.value)"> Atendidas</label>
+            <label><input type="radio" name="rk_filt" value="sal" onchange="filtRk(this.value)"> Salientes</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tRk"></canvas></div></div>
+  </div>
+  
+  <div class="cc full" style="animation-delay:.25s;margin-bottom:20px;">
+    <div class="ct">Perturbaciones / Rechazos</div><div class="cs">🟢 &lt;100 · 🟡 100–199 · 🔴 ≥200</div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tPe"></canvas></div></div>
+  </div>
+  
+  <div class="cc full" style="animation-delay:.3s;margin-bottom:20px;">
+    <div class="ct">Conexión Web vs Móvil</div><div class="cs">Tipo de acceso</div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCx"></canvas></div></div>
+  </div>
+  
+  <div class="sl">Seguimiento y citas</div>
+  
+  <div class="cc full" style="animation-delay:.35s;margin-bottom:20px;">
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">No-Reply · Faros · Correos</div><div class="cs" style="margin-bottom:0">Seguimiento por técnico</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="sg_filt" value="all" checked onchange="filtSg(this.value)"> Todas</label>
+            <label><input type="radio" name="sg_filt" value="nor" onchange="filtSg(this.value)"> No-Reply</label>
+            <label><input type="radio" name="sg_filt" value="far" onchange="filtSg(this.value)"> Faros</label>
+            <label><input type="radio" name="sg_filt" value="cor" onchange="filtSg(this.value)"> Correos</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tSg"></canvas></div></div>
+  </div>
+  
+  <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Citas Remotas vs Presenciales</div><div class="cs" style="margin-bottom:0">Por técnico</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="ci_filt" value="all" checked onchange="filtCi(this.value)"> Todas</label>
+            <label><input type="radio" name="ci_filt" value="crem" onchange="filtCi(this.value)"> Remotas</label>
+            <label><input type="radio" name="ci_filt" value="cpre" onchange="filtCi(this.value)"> Presenciales</label>
+        </div>
+    </div>
+    <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCi"></canvas></div></div>
+  </div>
 </div>
 
 <div class="footer-nota">
   ℹ️ <strong>Nota aclaratoria:</strong> Los valores aquí representados reflejan aproximadamente entre un 90% y un 95% de la actividad operativa real, debido a la complejidad y anomalías técnicas en la extracción de ciertos registros de origen.
 </div>
 </div> 
+
 <div id="tbl-modal">
   <div id="tbl-modal-inner">
     <div id="tbl-modal-head">
@@ -273,6 +285,19 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
       <button id="tbl-modal-close" onclick="closeTblModal()">✕ Cerrar</button>
     </div>
     <div id="tbl-modal-body" class="scroller"></div>
+  </div>
+</div>
+
+<div id="tech-modal">
+  <div id="tech-modal-inner">
+    <div id="tech-modal-head">
+      <div><div id="tech-modal-title"></div><div id="tech-modal-sub">Análisis personal y comparativa respecto a la media total</div></div>
+      <div style="display:flex; gap:12px; flex-shrink:0;">
+        <button id="tech-modal-download">📥 Descargar CSV</button>
+        <button id="tech-modal-close" onclick="closeTechModal()">✕ Cerrar</button>
+      </div>
+    </div>
+    <div id="tech-modal-body" class="scroller"></div>
   </div>
 </div>
 
@@ -288,7 +313,7 @@ const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, 
     const MESES_K = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
     const GT_ENTRANTES = {"FSM": {"ENERO": 335, "FEBRERO": 208, "MARZO": 252, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "FSM112": {"ENERO": 16, "FEBRERO": 8, "MARZO": 9, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA": {"ENERO": 91, "FEBRERO": 58, "MARZO": 75, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA112": {"ENERO": 29, "FEBRERO": 29, "MARZO": 35, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}};
     
-const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 68, "mov": 0, "pert": 76, "at": 461, "sal": 276, "com": 486, "nor": 414, "far": 316, "cor": 126, "crem": 22, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 61, "mov": 6, "pert": 60, "at": 88, "sal": 77, "com": 106, "nor": 94, "far": 81, "cor": 1, "crem": 0, "cpre": 44}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 52, "mov": 0, "pert": 24, "at": 372, "sal": 559, "com": 607, "nor": 185, "far": 246, "cor": 118, "crem": 93, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 52, "mov": 5, "pert": 7, "at": 215, "sal": 189, "com": 279, "nor": 135, "far": 197, "cor": 85, "crem": 14, "cpre": 59}, {"n": "CAESAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 54, "mov": 1, "pert": 9, "at": 106, "sal": 134, "com": 164, "nor": 175, "far": 179, "cor": 278, "crem": 40, "cpre": 17}, {"n": "CHACON GONZALEZ ALVARO (E_ACG394)", "web": 23, "mov": 1, "pert": 1, "at": 14, "sal": 22, "com": 36, "nor": 5, "far": 26, "cor": 2, "crem": 2, "cpre": 11}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 41, "mov": 0, "pert": 8, "at": 64, "sal": 49, "com": 50, "nor": 16, "far": 55, "cor": 10, "crem": 2, "cpre": 71}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 52, "mov": 1, "pert": 30, "at": 103, "sal": 114, "com": 160, "nor": 73, "far": 89, "cor": 93, "crem": 5, "cpre": 57}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 53, "mov": 0, "pert": 85, "at": 102, "sal": 114, "com": 134, "nor": 62, "far": 48, "cor": 10, "crem": 11, "cpre": 97}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 40, "mov": 3, "pert": 30, "at": 238, "sal": 210, "com": 274, "nor": 144, "far": 106, "cor": 144, "crem": 35, "cpre": 19}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 60, "mov": 4, "pert": 67, "at": 99, "sal": 83, "com": 133, "nor": 114, "far": 103, "cor": 121, "crem": 12, "cpre": 82}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 66, "mov": 7, "pert": 20, "at": 249, "sal": 285, "com": 359, "nor": 162, "far": 141, "cor": 36, "crem": 32, "cpre": 146}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 58, "mov": 1, "pert": 26, "at": 381, "sal": 170, "com": 378, "nor": 243, "far": 283, "cor": 70, "crem": 11, "cpre": 102}, {"n": "ISIDRO MATXINANDIARENA GORKA (E_GIM7)", "web": 22, "mov": 0, "pert": 2, "at": 48, "sal": 29, "com": 77, "nor": 20, "far": 39, "cor": 6, "crem": 0, "cpre": 3}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 47, "mov": 6, "pert": 67, "at": 107, "sal": 36, "com": 92, "nor": 65, "far": 49, "cor": 37, "crem": 6, "cpre": 58}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 43, "mov": 1, "pert": 11, "at": 167, "sal": 216, "com": 217, "nor": 234, "far": 210, "cor": 177, "crem": 15, "cpre": 4}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 76, "mov": 2, "pert": 24, "at": 106, "sal": 200, "com": 124, "nor": 112, "far": 99, "cor": 29, "crem": 9, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 58, "mov": 0, "pert": 9, "at": 398, "sal": 591, "com": 640, "nor": 275, "far": 300, "cor": 45, "crem": 48, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 55, "mov": 15, "pert": 7, "at": 174, "sal": 189, "com": 240, "nor": 100, "far": 79, "cor": 47, "crem": 24, "cpre": 98}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 18, "mov": 16, "pert": 14, "at": 133, "sal": 128, "com": 139, "nor": 69, "far": 49, "cor": 63, "crem": 7, "cpre": 30}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 44, "mov": 4, "pert": 24, "at": 249, "sal": 253, "com": 234, "nor": 93, "far": 170, "cor": 14, "crem": 13, "cpre": 12}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 76, "mov": 11, "pert": 66, "at": 182, "sal": 185, "com": 280, "nor": 146, "far": 149, "cor": 72, "crem": 18, "cpre": 37}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 46, "mov": 5, "pert": 79, "at": 216, "sal": 202, "com": 240, "nor": 228, "far": 147, "cor": 188, "crem": 27, "cpre": 27}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 15, "mov": 45, "pert": 26, "at": 234, "sal": 118, "com": 196, "nor": 74, "far": 93, "cor": 15, "crem": 3, "cpre": 145}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 58, "mov": 4, "pert": 10, "at": 138, "sal": 254, "com": 273, "nor": 247, "far": 221, "cor": 252, "crem": 20, "cpre": 59}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 51, "mov": 14, "pert": 37, "at": 255, "sal": 237, "com": 287, "nor": 177, "far": 170, "cor": 164, "crem": 28, "cpre": 41}, {"n": "SOTO CORONADO RAFAEL (E_RSC94)", "web": 28, "mov": 0, "pert": 13, "at": 14, "sal": 90, "com": 104, "nor": 29, "far": 28, "cor": 7, "crem": 2, "cpre": 1}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 57, "mov": 6, "pert": 18, "at": 100, "sal": 94, "com": 99, "nor": 76, "far": 63, "cor": 19, "crem": 1, "cpre": 16}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 61, "mov": 0, "pert": 17, "at": 366, "sal": 336, "com": 524, "nor": 344, "far": 351, "cor": 309, "crem": 32, "cpre": 89}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 56, "mov": 13, "pert": 53, "at": 100, "sal": 145, "com": 148, "nor": 108, "far": 118, "cor": 67, "crem": 12, "cpre": 72}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 51, "mov": 2, "pert": 53, "at": 213, "sal": 78, "com": 210, "nor": 114, "far": 157, "cor": 35, "crem": 13, "cpre": 84}];
+const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 68, "mov": 0, "pert": 76, "at": 461, "sal": 276, "com": 486, "nor": 414, "far": 316, "cor": 126, "crem": 22, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 61, "mov": 6, "pert": 60, "at": 88, "sal": 77, "com": 106, "nor": 94, "far": 81, "cor": 1, "crem": 0, "cpre": 44}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 52, "mov": 0, "pert": 24, "at": 372, "sal": 559, "com": 607, "nor": 185, "far": 246, "cor": 118, "crem": 93, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 52, "mov": 5, "pert": 7, "at": 215, "sal": 189, "com": 279, "nor": 135, "far": 197, "cor": 85, "crem": 14, "cpre": 59}, {"n": "CAESAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 54, "mov": 1, "pert": 9, "at": 106, "sal": 134, "com": 164, "nor": 175, "far": 179, "cor": 278, "crem": 40, "cpre": 17}, {"n": "CHACON GONZALEZ ALVARO (E_ACG394)", "web": 23, "mov": 1, "pert": 1, "at": 14, "sal": 22, "com": 36, "nor": 5, "far": 26, "cor": 2, "crem": 2, "cpre": 11}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 41, "mov": 0, "pert": 8, "at": 64, "sal": 49, "com": 50, "nor": 16, "far": 55, "cor": 10, "crem": 2, "cpre": 71}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 52, "mov": 1, "pert": 30, "at": 103, "sal": 114, "com": 160, "nor": 73, "far": 89, "cor": 93, "crem": 5, "cpre": 57}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 53, "mov": 0, "pert": 85, "at": 102, "sal": 114, "com": 134, "nor": 62, "far": 48, "cor": 10, "crem": 11, "cpre": 97}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 40, "mov": 3, "pert": 30, "at": 238, "sal": 210, "com": 274, "nor": 144, "far": 106, "cor": 144, "crem": 35, "cpre": 19}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 60, "mov": 4, "pert": 15, "at": 99, "sal": 83, "com": 133, "nor": 114, "far": 103, "cor": 121, "crem": 12, "cpre": 82}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 66, "mov": 7, "pert": 20, "at": 249, "sal": 285, "com": 359, "nor": 162, "far": 141, "cor": 36, "crem": 32, "cpre": 146}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 58, "mov": 1, "pert": 26, "at": 381, "sal": 170, "com": 378, "nor": 243, "far": 283, "cor": 70, "crem": 11, "cpre": 102}, {"n": "ISIDRO MATXINANDIARENA GORKA (E_GIM7)", "web": 22, "mov": 0, "pert": 2, "at": 48, "sal": 29, "com": 77, "nor": 20, "far": 39, "cor": 6, "crem": 0, "cpre": 3}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 47, "mov": 6, "pert": 67, "at": 107, "sal": 36, "com": 92, "nor": 65, "far": 49, "cor": 37, "crem": 6, "cpre": 58}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 43, "mov": 1, "pert": 11, "at": 167, "sal": 216, "com": 217, "nor": 234, "far": 210, "cor": 177, "crem": 15, "cpre": 4}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 76, "mov": 2, "pert": 24, "at": 106, "sal": 200, "com": 124, "nor": 112, "far": 99, "cor": 29, "crem": 9, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 58, "mov": 0, "pert": 9, "at": 398, "sal": 591, "com": 640, "nor": 275, "far": 300, "cor": 45, "crem": 48, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 55, "mov": 15, "pert": 7, "at": 174, "sal": 189, "com": 240, "nor": 100, "far": 79, "cor": 47, "crem": 24, "cpre": 98}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 18, "mov": 16, "pert": 14, "at": 133, "sal": 128, "com": 139, "nor": 69, "far": 49, "cor": 63, "crem": 7, "cpre": 30}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 44, "mov": 4, "pert": 24, "at": 249, "sal": 253, "com": 234, "nor": 93, "far": 170, "cor": 14, "crem": 13, "cpre": 12}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 76, "mov": 11, "pert": 66, "at": 182, "sal": 185, "com": 280, "nor": 146, "far": 149, "cor": 72, "crem": 18, "cpre": 37}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 46, "mov": 5, "pert": 79, "at": 216, "sal": 202, "com": 240, "nor": 228, "far": 147, "cor": 188, "crem": 27, "cpre": 27}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 15, "mov": 45, "pert": 26, "at": 234, "sal": 118, "com": 196, "nor": 74, "far": 93, "cor": 15, "crem": 3, "cpre": 145}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 58, "mov": 4, "pert": 10, "at": 138, "sal": 254, "com": 273, "nor": 247, "far": 221, "cor": 252, "crem": 20, "cpre": 59}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 51, "mov": 14, "pert": 37, "at": 255, "sal": 237, "com": 287, "nor": 177, "far": 170, "cor": 164, "crem": 28, "cpre": 41}, {"n": "SOTO CORONADO RAFAEL (E_RSC94)", "web": 28, "mov": 0, "pert": 13, "at": 14, "sal": 90, "com": 104, "nor": 29, "far": 28, "cor": 7, "crem": 2, "cpre": 1}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 57, "mov": 6, "pert": 18, "at": 100, "sal": 94, "com": 99, "nor": 76, "far": 63, "cor": 19, "crem": 1, "cpre": 16}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 61, "mov": 0, "pert": 17, "at": 366, "sal": 336, "com": 524, "nor": 344, "far": 351, "cor": 309, "crem": 32, "cpre": 89}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 56, "mov": 13, "pert": 53, "at": 100, "sal": 145, "com": 148, "nor": 108, "far": 118, "cor": 67, "crem": 12, "cpre": 72}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 51, "mov": 2, "pert": 53, "at": 213, "sal": 78, "com": 210, "nor": 114, "far": 157, "cor": 35, "crem": 13, "cpre": 84}];
 
 // ── CHART.JS ───────────────────────────────────────────────────
 Chart.register(ChartDataLabels);
@@ -573,7 +598,7 @@ function buildT(){
     const mxV=sT[0]?.[sKey]||1; 
 
     document.getElementById('tTbl').innerHTML='<thead><tr><th>#</th><th>Técnico</th>'+cs.map(c=>`<th class="nc" style="color:${c.c}">${c.l}</th>`).join('')+'<th style="width:70px">Rel.</th></tr></thead><tbody>'+
-      sT.map((d,i)=>`<tr><td class="rank">${i+1}</td><td style="font-weight:500">${d.n}</td>`+cs.map(c=>{let cl='nc';if(c.k==='pert')cl+=d.pert>=200?' nw':d.pert>=100?' ':' no';return `<td class="${cl}" style="color:${c.c}">${d[c.p].toLocaleString('es')}</td>`;}).join('')+`<td><div class="bm"><div class="bmf" style="width:${(d[sKey]/mxV*100).toFixed(0)}%"></div></div></td></tr>`).join('')+'</tbody>';
+      sT.map((d,i)=>`<tr class="tech-row" onclick="openTechModal('${d.n}'); event.stopPropagation();"><td class="rank">${i+1}</td><td style="font-weight:500">${d.n}</td>`+cs.map(c=>{let cl='nc';if(c.k==='pert')cl+=d.pert>=200?' nw':d.pert>=100?' ':' no';return `<td class="${cl}" style="color:${c.c}">${d[c.p].toLocaleString('es')}</td>`;}).join('')+`<td><div class="bm"><div class="bmf" style="width:${(d[sKey]/mxV*100).toFixed(0)}%"></div></div></td></tr>`).join('')+'</tbody>';
   }
   function rOpts(){
     document.getElementById('tCO').innerHTML=COLS.map(c=>`<label style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;" onmouseenter="this.style.background='rgba(79,156,249,.08)'" onmouseleave="this.style.background='transparent'">
@@ -595,6 +620,155 @@ function buildT(){
   document.addEventListener('click',e=>{const p=document.getElementById('tCP'),b=document.getElementById('tCB');if(p&&!p.contains(e.target)&&b&&!b.contains(e.target))p.style.display='none';});
   rTbl();
 }
+
+// ── GENERADOR DE CSV ──────────────────────────────────────────
+window.downloadTechCSV = function(n) {
+  const t = TD.find(x => x.n === n);
+  if(!t) return;
+
+  const N = TD.length;
+  let tot = {com:0, at:0, sal:0, pert:0, web:0, mov:0, nor:0, far:0, cor:0, crem:0, cpre:0};
+  TD.forEach(x => { for(let k in tot) tot[k] += x[k]; });
+
+  const avg = {};
+  for(let k in tot) avg[k] = Math.round(tot[k] / N);
+
+  // Formato preparado para Excel europeo (separado por ;)
+  let csv = "Métrica;Técnico (" + t.n + ");Media Global\n";
+  csv += `Comunicaciones totales;${t.com};${avg.com}\n`;
+  csv += `Llamadas Atendidas;${t.at};${avg.at}\n`;
+  csv += `Llamadas Salientes;${t.sal};${avg.sal}\n`;
+  csv += `Perturbaciones / Rechazos;${t.pert};${avg.pert}\n`;
+  csv += `Conexión Web;${t.web};${avg.web}\n`;
+  csv += `Conexión Móvil;${t.mov};${avg.mov}\n`;
+  csv += `Seguimiento No-Reply;${t.nor};${avg.nor}\n`;
+  csv += `Seguimiento Faros;${t.far};${avg.far}\n`;
+  csv += `Seguimiento Correos;${t.cor};${avg.cor}\n`;
+  csv += `Citas Remotas;${t.crem};${avg.crem}\n`;
+  csv += `Citas Presenciales;${t.cpre};${avg.cpre}\n`;
+
+  // Añadimos BOM (\ufeff) para forzar la lectura correcta en UTF-8 en MS Excel
+  const blob = new Blob(["\ufeff", csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  
+  link.href = url;
+  // Limpiamos el nombre para que sea un archivo válido
+  const safeName = t.n.replace(/[^a-zA-Z0-9]/gi, '_').replace(/_+/g, '_');
+  link.download = `Resumen_Tecnico_${safeName}.csv`;
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+// ── LÓGICA MODAL DETALLE DE TÉCNICO ───────────────────────────
+window.openTechModal = function(n) {
+  const t = TD.find(x => x.n === n);
+  if(!t) return;
+  
+  const N = TD.length;
+  let tot = {com:0, at:0, sal:0, pert:0, web:0, mov:0, nor:0, far:0, cor:0, crem:0, cpre:0};
+  TD.forEach(x => { for(let k in tot) tot[k] += x[k]; });
+  
+  const avg = {};
+  for(let k in tot) avg[k] = Math.round(tot[k] / N);
+
+  const pertRateTech = t.at > 0 ? ((t.pert / t.at) * 100).toFixed(1) : 0;
+  const pertRateAvg = tot.at > 0 ? ((tot.pert / tot.at) * 100).toFixed(1) : 0;
+
+  document.getElementById('tech-modal-title').textContent = t.n;
+  
+  // Asignamos la función de descarga al botón correspondiente
+  document.getElementById('tech-modal-download').onclick = () => downloadTechCSV(t.n);
+
+  const html = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:16px;margin-bottom:28px;">
+      <div class="kpi-card" style="animation:none;transform:none;margin:0;">
+        <div class="kpi-label">Comunicaciones</div>
+        <div class="kpi-value" style="color:var(--text)">${t.com}</div>
+        <div class="kpi-sub">Media general: ${avg.com}</div>
+      </div>
+      <div class="kpi-card" style="animation:none;transform:none;margin:0;">
+        <div class="kpi-label">Atendidas</div>
+        <div class="kpi-value" style="color:var(--accent1)">${t.at}</div>
+        <div class="kpi-sub">Media general: ${avg.at}</div>
+      </div>
+      <div class="kpi-card" style="animation:none;transform:none;margin:0;">
+        <div class="kpi-label">Salientes</div>
+        <div class="kpi-value" style="color:var(--accent3)">${t.sal}</div>
+        <div class="kpi-sub">Media general: ${avg.sal}</div>
+      </div>
+      <div class="kpi-card" style="animation:none;transform:none;margin:0;">
+        <div class="kpi-label">Perturbaciones</div>
+        <div class="kpi-value" style="color:var(--accent2)">${t.pert}</div>
+        <div class="kpi-sub">${pertRateTech}% sobre atendidas<br>(Media total: ${pertRateAvg}%)</div>
+      </div>
+    </div>
+    
+    <div class="sl">Desglose Detallado y Comparativa</div>
+    <div class="scroller" style="overflow-x:auto;">
+      <table class="at" style="min-width:600px;">
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th class="nc">Técnico</th>
+            <th class="nc">Media Global</th>
+            <th class="nc" style="width:120px">Desviación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Llamadas Atendidas</td>
+            <td class="nc" style="color:var(--accent1);font-weight:bold;">${t.at}</td>
+            <td class="nc">${avg.at}</td>
+            <td class="nc">${t.at >= avg.at ? '<span style="color:#4ff9b8">📈 +'+(t.at-avg.at)+'</span>' : '<span style="color:#f97c4f">📉 '+(t.at-avg.at)+'</span>'}</td>
+          </tr>
+          <tr>
+            <td>Llamadas Salientes</td>
+            <td class="nc" style="color:var(--accent3);font-weight:bold;">${t.sal}</td>
+            <td class="nc">${avg.sal}</td>
+            <td class="nc">${t.sal >= avg.sal ? '<span style="color:#4ff9b8">📈 +'+(t.sal-avg.sal)+'</span>' : '<span style="color:#f97c4f">📉 '+(t.sal-avg.sal)+'</span>'}</td>
+          </tr>
+          <tr>
+            <td>Perturbaciones</td>
+            <td class="nc" style="color:var(--accent2);font-weight:bold;">${t.pert}</td>
+            <td class="nc">${avg.pert}</td>
+            <td class="nc">${t.pert <= avg.pert ? '<span style="color:#4ff9b8">✅ Mejor</span>' : '<span style="color:#f97c4f">⚠️ Peor</span>'}</td>
+          </tr>
+          <tr>
+            <td>Conexión (Web / Móvil)</td>
+            <td class="nc">${t.web} / ${t.mov}</td>
+            <td class="nc">${avg.web} / ${avg.mov}</td>
+            <td class="nc" style="color:var(--muted)">—</td>
+          </tr>
+          <tr>
+            <td>Seguimiento (No-Reply / Faros / Correos)</td>
+            <td class="nc">${t.nor} / ${t.far} / ${t.cor}</td>
+            <td class="nc">${avg.nor} / ${avg.far} / ${avg.cor}</td>
+            <td class="nc" style="color:var(--muted)">—</td>
+          </tr>
+          <tr>
+            <td>Citas (Remotas / Presenciales)</td>
+            <td class="nc">${t.crem} / ${t.cpre}</td>
+            <td class="nc">${avg.crem} / ${avg.cpre}</td>
+            <td class="nc" style="color:var(--muted)">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById('tech-modal-body').innerHTML = html;
+  document.getElementById('tech-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeTechModal = function() {
+  document.getElementById('tech-modal').classList.remove('open');
+  document.body.style.overflow = '';
+};
 
 // ── MODAL PANTALLA COMPLETA (tablas + gráficos) ───────────────
 (function(){
@@ -669,7 +843,9 @@ function buildT(){
 
   window.closeTblModal = function(){
     document.getElementById('tbl-modal').classList.remove('open');
-    document.body.style.overflow = '';
+    if (!document.getElementById('tech-modal').classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
     if (_modalChart){ _modalChart.destroy(); _modalChart = null; }
   };
 
@@ -683,8 +859,8 @@ function buildT(){
     card.style.position = 'relative';
     card.style.cursor   = 'pointer';
     card.addEventListener('click', e=>{
-      // Se ignora el click si se pulsa sobre un radio button (input) o su label
-      if (!e.target.closest('input,button,a,#tCB,#tCP,label')) openModal(card);
+      // Se ignora el click si se pulsa sobre un elemento que tenga su propia interactividad
+      if (!e.target.closest('input,button,a,#tCB,#tCP,label,.tech-row')) openModal(card);
     });
   }
 
@@ -696,9 +872,19 @@ function buildT(){
     obs.observe(document.body, {childList:true, subtree:true});
   });
 
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') window.closeTblModal(); });
+  document.addEventListener('keydown', e=>{ 
+    if(e.key==='Escape') {
+      window.closeTblModal(); 
+      window.closeTechModal();
+    }
+  });
+  
+  // Cerrar modales haciendo click fuera del contenido
   document.getElementById('tbl-modal').addEventListener('click', e=>{
     if (e.target === document.getElementById('tbl-modal')) window.closeTblModal();
+  });
+  document.getElementById('tech-modal').addEventListener('click', e=>{
+    if (e.target === document.getElementById('tech-modal')) window.closeTechModal();
   });
 })();
 </script>
