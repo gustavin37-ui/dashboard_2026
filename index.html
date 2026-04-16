@@ -21,11 +21,35 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;animation:fadeUp .6s ease both;}
 .kpi-card:hover{transform:translateY(-3px);border-color:var(--accent1);}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.kpi-card:nth-child(1)::before{background:var(--accent1);}.kpi-card:nth-child(2)::before{background:var(--accent2);}.kpi-card:nth-child(3)::before{background:var(--accent3);}.kpi-card:nth-child(4)::before{background:var(--accent4);}
+
+/* Colores por defecto para las tarjetas (por orden de aparición) */
+.kpi-card:nth-child(1)::before{background:var(--accent1);}
+.kpi-card:nth-child(2)::before{background:var(--accent2);}
+.kpi-card:nth-child(3)::before{background:var(--accent3);}
+.kpi-card:nth-child(4)::before{background:var(--accent4);}
+
 .kpi-label{font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
 .kpi-value{font-family:'DM Serif Display',serif;font-size:2.2rem;line-height:1;}
 .kpi-sub{font-size:.72rem;color:var(--muted);margin-top:6px;}
-.kpi-card:nth-child(1) .kpi-value{color:var(--accent1);}.kpi-card:nth-child(2) .kpi-value{color:var(--accent2);}.kpi-card:nth-child(3) .kpi-value{color:var(--accent3);}.kpi-card:nth-child(4) .kpi-value{color:var(--accent4);}
+
+.kpi-card:nth-child(1) .kpi-value{color:var(--accent1);}
+.kpi-card:nth-child(2) .kpi-value{color:var(--accent2);}
+.kpi-card:nth-child(3) .kpi-value{color:var(--accent3);}
+.kpi-card:nth-child(4) .kpi-value{color:var(--accent4);}
+
+/* 👇 COLORES PERSONALIZADOS PARA TARJETAS 👇 */
+.kpi-card.c-blanca::before { background:var(--text) !important; }
+.kpi-card.c-blanca .kpi-value { color:var(--text) !important; }
+.kpi-card.c-azul::before { background:var(--accent1) !important; }
+.kpi-card.c-azul .kpi-value { color:var(--accent1) !important; }
+.kpi-card.c-naranja::before { background:var(--accent2) !important; }
+.kpi-card.c-naranja .kpi-value { color:var(--accent2) !important; }
+.kpi-card.c-verde::before { background:var(--accent3) !important; }
+.kpi-card.c-verde .kpi-value { color:var(--accent3) !important; }
+.kpi-card.c-amarilla::before { background:#f9d84f !important; }
+.kpi-card.c-amarilla .kpi-value { color:#f9d84f !important; }
+/* 👆 FIN COLORES PERSONALIZADOS 👆 */
+
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
 .g3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;margin-bottom:20px;}
 .gg{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;margin-bottom:20px;}
@@ -96,6 +120,11 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 .radios label{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);cursor:pointer;transition:color .2s;text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
 .radios label:hover{color:var(--text);}
 .radios input[type="radio"]{accent-color:var(--accent1);cursor:pointer;margin:0;width:14px;height:14px;}
+
+/* Estilo para el selector de meses */
+.mes-select { background:var(--surface); color:var(--text); border:1px solid var(--border); padding:4px 8px; border-radius:6px; font-family:'DM Mono', monospace; font-size:0.65rem; outline:none; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; transition: border-color 0.2s; }
+.mes-select:hover { border-color:var(--accent1); }
+.mes-select option { background: var(--card); color: var(--text); }
 
 /* Estilo hover para filas de técnicos */
 .tech-row { cursor: pointer; transition: background 0.2s; }
@@ -189,14 +218,72 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 
 <div id="tc-tecnicos" class="tc">
   <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Comunicaciones totales</div><div class="kpi-value">11.355</div><div class="kpi-sub">31 técnicos</div></div>
-    <div class="kpi-card"><div class="kpi-label">Llamadas atendidas</div><div class="kpi-value">5.692</div><div class="kpi-sub">50.1% del total</div></div>
-    <div class="kpi-card"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">5.663</div><div class="kpi-sub">49.9% del total</div></div>
-    <div class="kpi-card"><div class="kpi-label">Perturbaciones</div><div class="kpi-value">923</div><div class="kpi-sub">16.2% sobre atendidas</div></div>
+    <div class="kpi-card c-blanca"><div class="kpi-label">Comunicaciones totales</div><div class="kpi-value">11.355</div><div class="kpi-sub">31 técnicos</div></div>
+    <div class="kpi-card c-azul"><div class="kpi-label">Llamadas atendidas</div><div class="kpi-value">5.692</div><div class="kpi-sub">50.1% del total</div></div>
+    <div class="kpi-card c-verde"><div class="kpi-label">Salientes realizadas</div><div class="kpi-value">5.663</div><div class="kpi-sub">49.9% del total</div></div>
+    <div class="kpi-card c-naranja"><div class="kpi-label">Perturbaciones</div><div class="kpi-value">923</div><div class="kpi-sub">16.2% sobre atendidas</div></div>
   </div>
   
+  <div class="kpi-row">
+    <div class="kpi-card c-blanca"><div class="kpi-label">Interacciones Totales</div><div class="kpi-value">11.335</div><div class="kpi-sub">Seguimiento global</div></div>
+    <div class="kpi-card c-naranja"><div class="kpi-label">No-Reply</div><div class="kpi-value">4.333</div><div class="kpi-sub">38.2% del total</div></div>
+    <div class="kpi-card c-amarilla"><div class="kpi-label">Faros</div><div class="kpi-value">4.362</div><div class="kpi-sub">38.5% del total</div></div>
+    <div class="kpi-card c-verde"><div class="kpi-label">Correos</div><div class="kpi-value">2.640</div><div class="kpi-sub">23.3% del total</div></div>
+  </div>
+  
+  <div style="display:flex; align-items:center; gap:16px; margin-bottom:12px;">
+    <div class="sl" style="flex:1; margin-bottom:0; border:none;">Análisis horario por mes</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Filtrar mes:</span>
+      <select onchange="updateTimeCharts(this.value)" class="mes-select">
+        <option value="0">Año Completo</option>
+        <option value="1">Enero</option>
+        <option value="2">Febrero</option>
+        <option value="3">Marzo</option>
+        <option value="4">Abril</option>
+        <option value="5">Mayo</option>
+        <option value="6">Junio</option>
+        <option value="7">Julio</option>
+        <option value="8">Agosto</option>
+        <option value="9">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+      </select>
+    </div>
+  </div>
+  <div style="height:1px; background:var(--border); margin-bottom:20px; width:100%;"></div>
+  
+  <div class="g3e">
+    <div class="cc" style="animation-delay:.05s">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Llamadas · Franja</div><div class="cs" style="margin-bottom:0">Actividad por hora</div></div>
+        <div class="radios" onclick="event.stopPropagation()">
+            <label><input type="radio" name="hll_filt" value="all" checked onchange="filtHLl(this.value)"> Todas</label>
+            <label><input type="radio" name="hll_filt" value="at" onchange="filtHLl(this.value)"> Atendidas</label>
+            <label><input type="radio" name="hll_filt" value="sal" onchange="filtHLl(this.value)"> Salientes</label>
+            <label><input type="radio" name="hll_filt" value="pe" onchange="filtHLl(this.value)"> Perturb.</label>
+        </div>
+      </div>
+      <div class="cw"><canvas id="tHLl" height="220"></canvas></div>
+    </div>
+    
+    <div class="cc" style="animation-delay:.1s">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">No-Reply · Franja</div><div class="cs" style="margin-bottom:0">Volumen por hora</div></div>
+      </div>
+      <div class="cw"><canvas id="tHNor" height="220"></canvas></div>
+    </div>
+
+    <div class="cc" style="animation-delay:.15s">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div><div class="ct">Correos · Franja</div><div class="cs" style="margin-bottom:0">Volumen por hora</div></div>
+      </div>
+      <div class="cw"><canvas id="tHCor" height="220"></canvas></div>
+    </div>
+  </div>
   <div class="sl">Resumen completo</div>
-  <div class="cc full" style="animation-delay:.1s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.35s;margin-bottom:20px;">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;">
       <div><div class="ct">Tabla de métricas</div><div class="cs">Selecciona columnas a mostrar (Clic en técnico para resumen)</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
@@ -221,9 +308,9 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="scroller" style="overflow-x:auto;"><table class="at" id="tTbl" style="min-width:300px;"></table></div>
   </div>
 
-  <div class="sl">Actividad</div>
+  <div class="sl">Actividad por técnico</div>
   
-  <div class="cc full" style="animation-delay:.2s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">Comunicaciones totales</div><div class="cs" style="margin-bottom:0">Atendidas + Salientes</div></div>
         <div class="radios" onclick="event.stopPropagation()">
@@ -235,19 +322,19 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tRk"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.25s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.45s;margin-bottom:20px;">
     <div class="ct">Perturbaciones / Rechazos</div><div class="cs">🟢 &lt;100 · 🟡 100–199 · 🔴 ≥200</div>
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tPe"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.3s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.5s;margin-bottom:20px;">
     <div class="ct">Conexión Web vs Móvil</div><div class="cs">Tipo de acceso</div>
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCx"></canvas></div></div>
   </div>
   
-  <div class="sl">Seguimiento y citas</div>
+  <div class="sl">Seguimiento y citas por técnico</div>
   
-  <div class="cc full" style="animation-delay:.35s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.55s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">No-Reply · Faros · Correos</div><div class="cs" style="margin-bottom:0">Seguimiento por técnico</div></div>
         <div class="radios" onclick="event.stopPropagation()">
@@ -260,7 +347,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tSg"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
+  <div class="cc full" style="animation-delay:.6s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">Citas Remotas vs Presenciales</div><div class="cs" style="margin-bottom:0">Por técnico</div></div>
         <div class="radios" onclick="event.stopPropagation()">
@@ -313,7 +400,10 @@ const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, 
     const MESES_K = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
     const GT_ENTRANTES = {"FSM": {"ENERO": 335, "FEBRERO": 208, "MARZO": 252, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "FSM112": {"ENERO": 16, "FEBRERO": 8, "MARZO": 9, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA": {"ENERO": 91, "FEBRERO": 58, "MARZO": 75, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}, "GUARDIA112": {"ENERO": 29, "FEBRERO": 29, "MARZO": 35, "ABRIL": 0, "MAYO": 0, "JUNIO": 0, "JULIO": 0, "AGOSTO": 0, "SEPTIEMBRE": 0, "OCTUBRE": 0, "NOVIEMBRE": 0, "DICIEMBRE": 0}};
     
-const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 68, "mov": 0, "pert": 76, "at": 461, "sal": 276, "com": 737, "nor": 414, "far": 316, "cor": 126, "crem": 22, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 61, "mov": 6, "pert": 60, "at": 88, "sal": 77, "com": 165, "nor": 94, "far": 81, "cor": 1, "crem": 0, "cpre": 44}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 52, "mov": 0, "pert": 24, "at": 372, "sal": 559, "com": 931, "nor": 185, "far": 246, "cor": 118, "crem": 93, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 52, "mov": 5, "pert": 7, "at": 215, "sal": 189, "com": 404, "nor": 135, "far": 197, "cor": 85, "crem": 14, "cpre": 59}, {"n": "CAESAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 54, "mov": 1, "pert": 9, "at": 106, "sal": 134, "com": 240, "nor": 175, "far": 179, "cor": 278, "crem": 40, "cpre": 17}, {"n": "CHACON GONZALEZ ALVARO (E_ACG394)", "web": 23, "mov": 1, "pert": 1, "at": 14, "sal": 22, "com": 36, "nor": 5, "far": 26, "cor": 2, "crem": 2, "cpre": 11}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 41, "mov": 0, "pert": 8, "at": 64, "sal": 49, "com": 113, "nor": 16, "far": 55, "cor": 10, "crem": 2, "cpre": 71}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 52, "mov": 1, "pert": 30, "at": 103, "sal": 114, "com": 217, "nor": 73, "far": 89, "cor": 93, "crem": 5, "cpre": 57}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 53, "mov": 0, "pert": 85, "at": 102, "sal": 114, "com": 216, "nor": 62, "far": 48, "cor": 10, "crem": 11, "cpre": 97}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 40, "mov": 3, "pert": 30, "at": 238, "sal": 210, "com": 448, "nor": 144, "far": 106, "cor": 144, "crem": 35, "cpre": 19}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 60, "mov": 4, "pert": 17, "at": 99, "sal": 83, "com": 182, "nor": 114, "far": 103, "cor": 121, "crem": 12, "cpre": 82}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 66, "mov": 7, "pert": 20, "at": 249, "sal": 285, "com": 534, "nor": 162, "far": 141, "cor": 36, "crem": 32, "cpre": 146}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 58, "mov": 1, "pert": 26, "at": 381, "sal": 170, "com": 551, "nor": 243, "far": 283, "cor": 70, "crem": 11, "cpre": 102}, {"n": "ISIDRO MATXINANDIARENA GORKA (E_GIM7)", "web": 22, "mov": 0, "pert": 2, "at": 48, "sal": 29, "com": 77, "nor": 20, "far": 39, "cor": 6, "crem": 0, "cpre": 3}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 47, "mov": 6, "pert": 67, "at": 107, "sal": 36, "com": 143, "nor": 65, "far": 49, "cor": 37, "crem": 6, "cpre": 58}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 43, "mov": 1, "pert": 11, "at": 167, "sal": 216, "com": 383, "nor": 234, "far": 210, "cor": 177, "crem": 15, "cpre": 4}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 76, "mov": 2, "pert": 24, "at": 106, "sal": 200, "com": 306, "nor": 112, "far": 99, "cor": 29, "crem": 9, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 58, "mov": 0, "pert": 9, "at": 398, "sal": 591, "com": 989, "nor": 275, "far": 300, "cor": 45, "crem": 48, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 55, "mov": 15, "pert": 7, "at": 174, "sal": 189, "com": 363, "nor": 100, "far": 79, "cor": 47, "crem": 24, "cpre": 98}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 18, "mov": 16, "pert": 14, "at": 133, "sal": 128, "com": 261, "nor": 69, "far": 49, "cor": 63, "crem": 7, "cpre": 30}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 44, "mov": 4, "pert": 24, "at": 249, "sal": 253, "com": 502, "nor": 93, "far": 170, "cor": 14, "crem": 13, "cpre": 12}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 76, "mov": 11, "pert": 66, "at": 182, "sal": 185, "com": 367, "nor": 146, "far": 149, "cor": 72, "crem": 18, "cpre": 37}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 46, "mov": 5, "pert": 79, "at": 216, "sal": 202, "com": 418, "nor": 228, "far": 147, "cor": 188, "crem": 27, "cpre": 27}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 15, "mov": 45, "pert": 26, "at": 234, "sal": 118, "com": 352, "nor": 74, "far": 93, "cor": 15, "crem": 3, "cpre": 145}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 58, "mov": 4, "pert": 10, "at": 138, "sal": 254, "com": 392, "nor": 247, "far": 221, "cor": 252, "crem": 20, "cpre": 59}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 51, "mov": 14, "pert": 37, "at": 255, "sal": 237, "com": 492, "nor": 177, "far": 170, "cor": 164, "crem": 28, "cpre": 41}, {"n": "SOTO CORONADO RAFAEL (E_RSC94)", "web": 28, "mov": 0, "pert": 13, "at": 14, "sal": 90, "com": 104, "nor": 29, "far": 28, "cor": 7, "crem": 2, "cpre": 1}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 57, "mov": 6, "pert": 18, "at": 100, "sal": 94, "com": 194, "nor": 76, "far": 63, "cor": 19, "crem": 1, "cpre": 16}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 61, "mov": 0, "pert": 17, "at": 366, "sal": 336, "com": 702, "nor": 344, "far": 351, "cor": 309, "crem": 32, "cpre": 89}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 56, "mov": 13, "pert": 53, "at": 100, "sal": 145, "com": 245, "nor": 108, "far": 118, "cor": 67, "crem": 12, "cpre": 72}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 51, "mov": 2, "pert": 53, "at": 213, "sal": 78, "com": 291, "nor": 114, "far": 157, "cor": 35, "crem": 13, "cpre": 84}];
+
+    const TD = [{"n": "ARJONA LEON MARIA JOSE (E_MAL247)", "web": 68, "mov": 0, "pert": 76, "at": 461, "sal": 276, "com": 737, "nor": 414, "far": 316, "cor": 126, "crem": 22, "cpre": 0}, {"n": "AYLLON MATA ANTONIO (E_AAM306)", "web": 61, "mov": 6, "pert": 60, "at": 88, "sal": 77, "com": 165, "nor": 94, "far": 81, "cor": 1, "crem": 0, "cpre": 44}, {"n": "BRIT PACHECO MONICA (E_MBP247)", "web": 52, "mov": 0, "pert": 24, "at": 372, "sal": 559, "com": 931, "nor": 185, "far": 246, "cor": 118, "crem": 93, "cpre": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO (E_JCR203)", "web": 52, "mov": 5, "pert": 7, "at": 215, "sal": 189, "com": 404, "nor": 135, "far": 197, "cor": 85, "crem": 14, "cpre": 59}, {"n": "CAESAR BUSTAMANTE GUSTAVO (E_GCB25)", "web": 54, "mov": 1, "pert": 9, "at": 106, "sal": 134, "com": 240, "nor": 175, "far": 179, "cor": 278, "crem": 40, "cpre": 17}, {"n": "CHACON GONZALEZ ALVARO (E_ACG394)", "web": 23, "mov": 1, "pert": 1, "at": 14, "sal": 22, "com": 36, "nor": 5, "far": 26, "cor": 2, "crem": 2, "cpre": 11}, {"n": "DUCHEL BRAVO JAVIER (E_JDB71)", "web": 41, "mov": 0, "pert": 8, "at": 64, "sal": 49, "com": 113, "nor": 16, "far": 55, "cor": 10, "crem": 2, "cpre": 71}, {"n": "DUQUE VELASQUEZ CÉSAR (E_CDV23)", "web": 52, "mov": 1, "pert": 30, "at": 103, "sal": 114, "com": 217, "nor": 73, "far": 89, "cor": 93, "crem": 5, "cpre": 57}, {"n": "FERNANDEZ AGUADO FERNANDO (E_FFA28)", "web": 53, "mov": 0, "pert": 85, "at": 102, "sal": 114, "com": 216, "nor": 62, "far": 48, "cor": 10, "crem": 11, "cpre": 97}, {"n": "FERNANDEZ JIMENO DAVID (E_DFJ9)", "web": 40, "mov": 3, "pert": 30, "at": 238, "sal": 210, "com": 448, "nor": 144, "far": 106, "cor": 144, "crem": 35, "cpre": 19}, {"n": "FERREIRA DIAS KAIO (E_KFD1)", "web": 60, "mov": 4, "pert": 17, "at": 99, "sal": 83, "com": 182, "nor": 114, "far": 103, "cor": 121, "crem": 12, "cpre": 82}, {"n": "HERRERA GUACHICHULLCA JAIRO (E_JHG82)", "web": 66, "mov": 7, "pert": 20, "at": 249, "sal": 285, "com": 534, "nor": 162, "far": 141, "cor": 36, "crem": 32, "cpre": 146}, {"n": "HERRERA PEREZ RAUL  (e_rhp25)", "web": 58, "mov": 1, "pert": 26, "at": 381, "sal": 170, "com": 551, "nor": 243, "far": 283, "cor": 70, "crem": 11, "cpre": 102}, {"n": "ISIDRO MATXINANDIARENA GORKA (E_GIM7)", "web": 22, "mov": 0, "pert": 2, "at": 48, "sal": 29, "com": 77, "nor": 20, "far": 39, "cor": 6, "crem": 0, "cpre": 3}, {"n": "IVANOV TODOROV STIVAN (E_SIT8)", "web": 47, "mov": 6, "pert": 67, "at": 107, "sal": 36, "com": 143, "nor": 65, "far": 49, "cor": 37, "crem": 6, "cpre": 58}, {"n": "IZQUIERDO OLIVA EDUARDO (E_EIO3)", "web": 43, "mov": 1, "pert": 11, "at": 167, "sal": 216, "com": 383, "nor": 234, "far": 210, "cor": 177, "crem": 15, "cpre": 4}, {"n": "JOGLAR MARQUEZ RUBEN (E_RJM46)", "web": 76, "mov": 2, "pert": 24, "at": 106, "sal": 200, "com": 306, "nor": 112, "far": 99, "cor": 29, "crem": 9, "cpre": 10}, {"n": "LARIOS MERCHAN JULIO MANUEL (e_jlm194)", "web": 58, "mov": 0, "pert": 9, "at": 398, "sal": 591, "com": 989, "nor": 275, "far": 300, "cor": 45, "crem": 48, "cpre": 0}, {"n": "MARTIN ALONSO JULIAN (E_JMA150)", "web": 55, "mov": 15, "pert": 7, "at": 174, "sal": 189, "com": 363, "nor": 100, "far": 79, "cor": 47, "crem": 24, "cpre": 98}, {"n": "MARTIN DEL REY ALVARO (E_AMD97)", "web": 18, "mov": 16, "pert": 14, "at": 133, "sal": 128, "com": 261, "nor": 69, "far": 49, "cor": 63, "crem": 7, "cpre": 30}, {"n": "MARTIN MELERO RUBEN (E_RMM324)", "web": 44, "mov": 4, "pert": 24, "at": 249, "sal": 253, "com": 502, "nor": 93, "far": 170, "cor": 14, "crem": 13, "cpre": 12}, {"n": "MENDOZA TORREJON DAVID (E_DMT13)", "web": 76, "mov": 11, "pert": 66, "at": 182, "sal": 185, "com": 367, "nor": 146, "far": 149, "cor": 72, "crem": 18, "cpre": 37}, {"n": "PULIDO POZO IGNACIO (E_IPP17)", "web": 46, "mov": 5, "pert": 79, "at": 216, "sal": 202, "com": 418, "nor": 228, "far": 147, "cor": 188, "crem": 27, "cpre": 27}, {"n": "RODRIGUEZ AREVALO ALBERTO (E_ARA196)", "web": 15, "mov": 45, "pert": 26, "at": 234, "sal": 118, "com": 352, "nor": 74, "far": 93, "cor": 15, "crem": 3, "cpre": 145}, {"n": "SACRISTAN HITA CARLOS (E_CSH36)", "web": 58, "mov": 4, "pert": 10, "at": 138, "sal": 254, "com": 392, "nor": 247, "far": 221, "cor": 252, "crem": 20, "cpre": 59}, {"n": "SECA LOPEZ  IRVING (E_ISL35)", "web": 51, "mov": 14, "pert": 37, "at": 255, "sal": 237, "com": 492, "nor": 177, "far": 170, "cor": 164, "crem": 28, "cpre": 41}, {"n": "SOTO CORONADO RAFAEL (E_RSC94)", "web": 28, "mov": 0, "pert": 13, "at": 14, "sal": 90, "com": 104, "nor": 29, "far": 28, "cor": 7, "crem": 2, "cpre": 1}, {"n": "VAZQUEZ CESTEROS GERMAN (E_GVC21)", "web": 57, "mov": 6, "pert": 18, "at": 100, "sal": 94, "com": 194, "nor": 76, "far": 63, "cor": 19, "crem": 1, "cpre": 16}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO (E_JVD32)", "web": 61, "mov": 0, "pert": 17, "at": 366, "sal": 336, "com": 702, "nor": 344, "far": 351, "cor": 309, "crem": 32, "cpre": 89}, {"n": "VICENTE GOMEZ MANUEL (e_mvg283)", "web": 56, "mov": 13, "pert": 53, "at": 100, "sal": 145, "com": 245, "nor": 108, "far": 118, "cor": 67, "crem": 12, "cpre": 72}, {"n": "VIVAS LINARES MIGUEL (E_MVL106)", "web": 51, "mov": 2, "pert": 53, "at": 213, "sal": 78, "com": 291, "nor": 114, "far": 157, "cor": 35, "crem": 13, "cpre": 84}];
+    const T_TIME = {"nor_h": {"0": [74, 263, 479, 647, 654, 602, 561, 450, 272, 194, 149, 103, 38, 25, 5], "1": [21, 91, 160, 220, 207, 179, 167, 132, 84, 46, 42, 32, 12, 11, 1], "2": [26, 72, 153, 219, 209, 212, 192, 190, 84, 70, 51, 42, 15, 9, 3], "3": [27, 100, 166, 208, 238, 211, 202, 128, 104, 78, 56, 29, 11, 5, 1], "4": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "6": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "7": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "9": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "10": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "11": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "12": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "cor_h": {"0": [56, 188, 314, 346, 307, 366, 330, 245, 203, 127, 109, 65, 30, 21, 8], "1": [12, 47, 116, 120, 91, 112, 105, 77, 50, 46, 31, 22, 10, 7, 3], "2": [22, 69, 107, 101, 95, 138, 118, 89, 80, 41, 38, 20, 8, 6, 2], "3": [22, 72, 91, 125, 121, 116, 107, 79, 73, 40, 40, 23, 12, 8, 3], "4": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "6": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "7": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "9": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "10": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "11": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "12": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "ll_p_h": {"0": [32, 138, 256, 124, 70, 49, 67, 72, 61, 35, 106, 24, 6, 2, 0], "1": [4, 43, 75, 54, 38, 24, 20, 23, 22, 3, 45, 4, 0, 0, 0], "2": [11, 49, 98, 41, 6, 17, 33, 17, 13, 22, 45, 3, 3, 1, 0], "3": [17, 46, 83, 29, 26, 8, 14, 32, 26, 10, 16, 17, 3, 1, 0], "4": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "6": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "7": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "9": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "10": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "11": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "12": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "ll_a_h": {"0": [124, 605, 1219, 837, 677, 619, 592, 352, 199, 185, 171, 121, 81, 32, 7], "1": [39, 177, 362, 260, 225, 178, 180, 112, 55, 49, 54, 34, 22, 16, 2], "2": [42, 193, 434, 276, 220, 215, 201, 126, 68, 70, 61, 37, 26, 6, 2], "3": [43, 235, 423, 301, 232, 226, 211, 114, 76, 66, 56, 50, 33, 10, 3], "4": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "6": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "7": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "9": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "10": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "11": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "12": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "ll_s_h": {"0": [23, 292, 710, 690, 851, 873, 853, 556, 343, 217, 128, 101, 54, 33, 8], "1": [10, 78, 179, 193, 269, 250, 248, 170, 108, 79, 30, 22, 18, 16, 0], "2": [3, 97, 233, 198, 258, 293, 286, 202, 114, 55, 40, 50, 23, 4, 4], "3": [10, 117, 298, 299, 324, 330, 319, 184, 121, 83, 58, 29, 13, 13, 4], "4": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "6": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "7": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "9": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "10": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "11": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "12": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}};
+    
 
 // ── CHART.JS ───────────────────────────────────────────────────
 Chart.register(ChartDataLabels);
@@ -480,11 +570,72 @@ function buildG(){
 
 // ── TÉCNICOS ──────────────────────────────────────────────────
 // Referencias globales para actualizar gráficos
+window.chartHLl = null;
+window.chartHNor = null;
+window.chartHCor = null;
 window.chartRk = null;
 window.chartSg = null;
 window.chartCi = null;
 
 function buildT(){
+  // 👇 INICIO GRÁFICAS HORARIAS CON FILTRO DE MES 👇
+  let currMonth = '0';
+  let currHLlFilt = 'all';
+  
+  const tHoras = ['7h','8h','9h','10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h','21h'];
+  
+  const thOpt = { responsive:true, layout:{padding:{top:30}}, interaction: { mode: 'index', intersect: false }, plugins:{legend:{display:false}, tooltip:{...TT}}, scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc},beginAtZero:true}} };
+  const thOptNoLeg = { ...thOpt };
+
+  // Horas: Llamadas (Líneas para que no se pisen, leyenda por defecto Oculta)
+  window.chartHLl = new Chart(document.getElementById('tHLl'), { type: 'line', data: { labels: tHoras, datasets: [
+    {label: 'Atendidas', data: T_TIME.ll_a_h['0'], borderColor: 'var(--accent1)', backgroundColor: 'rgba(79,156,249,0.1)', fill:true, tension:0.3, pointRadius:2},
+    {label: 'Salientes', data: T_TIME.ll_s_h['0'], borderColor: 'var(--accent3)', backgroundColor: 'rgba(79,249,184,0.1)', fill:true, tension:0.3, pointRadius:2},
+    {label: 'Perturb.', data: T_TIME.ll_p_h['0'], borderColor: 'var(--accent2)', backgroundColor: 'rgba(249,124,79,0.1)', fill:true, tension:0.3, pointRadius:2}
+  ]}, options: { ...thOpt, plugins: {...thOpt.plugins, datalabels:{display:false}} } });
+  
+  // Horas: No-Reply (Barras)
+  window.chartHNor = new Chart(document.getElementById('tHNor'), { type: 'bar', data: { labels: tHoras, datasets: [
+    {label: 'No-Reply', data: T_TIME.nor_h['0'], backgroundColor: 'rgba(249,124,79,0.4)', borderColor: 'var(--accent2)', borderWidth: 2, borderRadius: 5, datalabels: vDL}
+  ]}, options: thOptNoLeg });
+
+  // Horas: Correos (Barras)
+  window.chartHCor = new Chart(document.getElementById('tHCor'), { type: 'bar', data: { labels: tHoras, datasets: [
+    {label: 'Correos', data: T_TIME.cor_h['0'], backgroundColor: 'rgba(79,249,184,0.4)', borderColor: 'var(--accent3)', borderWidth: 2, borderRadius: 5, datalabels: vDL}
+  ]}, options: thOptNoLeg });
+
+  // Función Filtro Mensual (Para las 3 de golpe)
+  window.updateTimeCharts = function(val) {
+      currMonth = val.toString();
+      updateHLlData();
+      chartHNor.data.datasets[0].data = T_TIME.nor_h[currMonth];
+      chartHNor.update();
+      chartHCor.data.datasets[0].data = T_TIME.cor_h[currMonth];
+      chartHCor.update();
+  };
+
+  // Función Radio Filtro (Solo para Llamadas horarias)
+  window.filtHLl = function(val) {
+      currHLlFilt = val;
+      updateHLlData();
+  };
+
+  function updateHLlData() {
+      let ds = [];
+      if(currHLlFilt === 'all' || currHLlFilt === 'at') {
+          ds.push({label: 'Atendidas', data: T_TIME.ll_a_h[currMonth], borderColor: 'var(--accent1)', backgroundColor: 'rgba(79,156,249,0.1)', fill:true, tension:0.3, pointRadius:2});
+      }
+      if(currHLlFilt === 'all' || currHLlFilt === 'sal') {
+          ds.push({label: 'Salientes', data: T_TIME.ll_s_h[currMonth], borderColor: 'var(--accent3)', backgroundColor: 'rgba(79,249,184,0.1)', fill:true, tension:0.3, pointRadius:2});
+      }
+      if(currHLlFilt === 'all' || currHLlFilt === 'pe') {
+          ds.push({label: 'Perturb.', data: T_TIME.ll_p_h[currMonth], borderColor: 'var(--accent2)', backgroundColor: 'rgba(249,124,79,0.1)', fill:true, tension:0.3, pointRadius:2});
+      }
+      chartHLl.data.datasets = ds;
+      chartHLl.update();
+  }
+  // 👆 FIN GRÁFICAS HORARIAS 👆
+
   // Datalabels para barras horizontales
   const vi={display:true,anchor:'center',align:'center',rotation:0,color:'rgba(255,255,255,.95)',font:{family:"'DM Mono',monospace",size:11,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
   const vd={display:true,anchor:'end',align:'end',offset:4,rotation:0,color:'rgba(255,255,255,.9)',font:{family:"'DM Mono',monospace",size:11,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
@@ -499,7 +650,7 @@ function buildT(){
     plugins:{legend:{display:true,labels:{color:tc,font:{size:10},boxWidth:10,padding:12}},tooltip:{...TT},datalabels:{}},
     scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:11}},beginAtZero:true},y:{grid:{color:gc},ticks:{color:'#e8eaf2',font:{size:11}}}}};}
 
-  // 1. Gráfica Comunicaciones (Filtros: at, sal)
+  // Gráfica Comunicaciones (Filtros: at, sal)
   const sC=[...TD].sort((a,b)=>b.com-a.com);
   window.chartRk = new Chart(document.getElementById('tRk'),{type:'bar',data:{labels:sC.map(d=>d.n),datasets:[
     {label:'Atendidas',data:sC.map(d=>d.at),backgroundColor:'rgba(79,156,249,.8)',borderColor:'#4f9cf9',borderWidth:1,borderRadius:3,stack:'c',datalabels:vi},
@@ -518,7 +669,7 @@ function buildT(){
     chartRk.update();
   };
 
-  // Perturbaciones (No cambia)
+  // Perturbaciones
   const sP=[...TD].sort((a,b)=>b.pert-a.pert);
   const oP={...uo(),plugins:{...uo().plugins,legend:{display:false}}};
   new Chart(document.getElementById('tPe'),{type:'bar',data:{labels:sP.map(d=>d.n),datasets:[{label:'Perturb.',data:sP.map(d=>d.pert),
@@ -526,13 +677,13 @@ function buildT(){
     borderColor:sP.map(d=>d.pert>=200?'#f97c4f':d.pert>=100?'#f9d84f':'#4ff9b8'),
     borderWidth:1, borderRadius:3,datalabels:{...vd,color:sP.map(d=>d.pert>=200?'#f97c4f':d.pert>=100?'#f9d84f':'#4ff9b8')}}]},options:oP});
 
-  // Web vs Móvil (No cambia)
+  // Web vs Móvil
   const sW=[...TD].sort((a,b)=>(b.web+b.mov)-(a.web+a.mov));
   new Chart(document.getElementById('tCx'),{type:'bar',data:{labels:sW.map(d=>d.n),datasets:[
     {label:'Web',data:sW.map(d=>d.web),backgroundColor:'rgba(79,156,249,.85)',borderColor:'#4f9cf9',borderWidth:1,stack:'cx',borderRadius:3,datalabels:vi},
     {label:'Móvil',data:sW.map(d=>d.mov),backgroundColor:'rgba(201,79,249,.75)',borderColor:'#c94ff9',borderWidth:1,stack:'cx',borderRadius:3,datalabels:vi}]},options:so()});
 
-  // 2. Seguimiento (Filtros: nor, far, cor)
+  // Seguimiento (Filtros: nor, far, cor)
   const sN=[...TD].sort((a,b)=>(b.nor+b.far+b.cor)-(a.nor+a.far+a.cor));
   window.chartSg = new Chart(document.getElementById('tSg'),{type:'bar',data:{labels:sN.map(d=>d.n),datasets:[
     {label:'No-Reply',data:sN.map(d=>d.nor),backgroundColor:'rgba(249,124,79,.8)',borderColor:'#f97c4f',borderWidth:1,stack:'sg',borderRadius:3,datalabels:vi},
@@ -552,7 +703,7 @@ function buildT(){
     chartSg.update();
   };
 
-  // 3. Citas (Filtros: crem, cpre)
+  // Citas (Filtros: crem, cpre)
   const sCi=[...TD].sort((a,b)=>(b.crem+b.cpre)-(a.crem+a.cpre));
   window.chartCi = new Chart(document.getElementById('tCi'),{type:'bar',data:{labels:sCi.map(d=>d.n),datasets:[
     {label:'Remotas',data:sCi.map(d=>d.crem),backgroundColor:'rgba(79,249,184,.8)',borderColor:'#4ff9b8',borderWidth:1,stack:'ci',borderRadius:3,datalabels:vi},
@@ -854,7 +1005,7 @@ window.closeTechModal = function() {
     card.style.cursor   = 'pointer';
     card.addEventListener('click', e=>{
       // Se ignora el click si se pulsa sobre un elemento que tenga su propia interactividad
-      if (!e.target.closest('input,button,a,#tCB,#tCP,label,.tech-row')) openModal(card);
+      if (!e.target.closest('input,button,a,#tCB,#tCP,select,label,.tech-row')) openModal(card);
     });
   }
 
