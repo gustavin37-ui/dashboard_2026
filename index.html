@@ -883,10 +883,25 @@ function buildT(){
 
   const sP=[...TD].sort((a,b)=>b.pert-a.pert);
   const oP={...uo(),plugins:{...uo().plugins,legend:{display:false}}};
+  
+  // AQUÍ ESTÁ EL CÓDIGO ACTUALIZADO DE LAS PERTURBACIONES CON PORCENTAJES DENTRO
   new Chart(document.getElementById('tPe'),{type:'bar',data:{labels:sP.map(d=>d.n),datasets:[{label:'Perturb.',data:sP.map(d=>d.pert),
     backgroundColor:sP.map(d=>d.pert>=PERT_CRITICO?'rgba(249,124,79,.85)':d.pert>=PERT_ALTO?'rgba(249,216,79,.8)':'rgba(79,249,184,.7)'),
     borderColor:sP.map(d=>d.pert>=PERT_CRITICO?'#f97c4f':d.pert>=PERT_ALTO?'#f9d84f':'#4ff9b8'),
-    borderWidth:1, borderRadius:3,datalabels:{...vd,color:sP.map(d=>d.pert>=PERT_CRITICO?'#f97c4f':d.pert>=PERT_ALTO?'#f9d84f':'#4ff9b8')}}]},options:oP});
+    borderWidth:1, borderRadius:3,
+    datalabels:{
+      display:true,
+      anchor:'center',
+      align:'center',
+      color:'rgba(255, 255, 255, 0.95)',
+      font:{family:"'DM Mono',monospace",size:11,weight:'500'},
+      formatter:(v, ctx)=>{
+        let d = sP[ctx.dataIndex];
+        let pct = d.at > 0 ? ((d.pert / d.at) * 100).toFixed(1) : 0;
+        return v > 0 ? v + '/' + d.at + ' (' + pct + '%)' : '';
+      }
+    }
+  }]},options:oP});
 
   const sW=[...TD].sort((a,b)=>(b.web+b.mov)-(a.web+a.mov));
   new Chart(document.getElementById('tCx'),{type:'bar',data:{labels:sW.map(d=>d.n),datasets:[
