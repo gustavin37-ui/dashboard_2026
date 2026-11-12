@@ -21,7 +21,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent1),var(--accent3),var(--accent4));width:0%;z-index:9998;transition:width .1s;box-shadow:0 0 10px var(--accent1);}
 
-.wrapper{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:40px 24px;}
+.wrapper{position:relative;z-index:1;max-width:1840px;width:96vw;margin:0 auto;padding:32px 16px;}
 header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:20px;}
 .header-left h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;background:linear-gradient(135deg,var(--accent1),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .header-left p{color:var(--muted);font-size:0.78rem;letter-spacing:.12em;text-transform:uppercase;margin-top:6px;}
@@ -99,12 +99,13 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 .sb-gd{background:rgba(249,124,79,.15);color:#f97c4f;border:1px solid rgba(249,124,79,.3);}
 .sb-f12{background:rgba(79,249,184,.15);color:#4ff9b8;border:1px solid rgba(79,249,184,.3);}
 .sb-g12{background:rgba(201,79,249,.15);color:#c94ff9;border:1px solid rgba(201,79,249,.3);}
-.at{width:100%;border-collapse:collapse;font-size:.78rem;}
-.at th{color:var(--muted);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:color .2s;white-space:nowrap;}
+.at{width:100%;border-collapse:collapse;font-size:.75rem;table-layout:auto;}
+.at th{color:var(--muted);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;padding:8px 6px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:color .2s;white-space:normal;line-height:1.2;vertical-align:bottom;}
+.at th.nc{text-align:right;}
 .at th:hover{color:var(--accent1);}
-.at th .sort-icon{opacity:.4;margin-left:4px;font-size:.55rem;}
+.at th .sort-icon{opacity:.4;margin-left:2px;font-size:.52rem;display:inline-block;}
 .at th.sorted{color:var(--accent1);}
-.at td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+.at td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;white-space:nowrap;}
 .at tr:last-child td{border-bottom:none;}.at tr:hover td{background:rgba(79,156,249,.04);}
 .tbl-expand{cursor:pointer;}
 .tbl-expand::after{content:'⛶';position:absolute;top:14px;right:16px;font-size:.9rem;color:var(--muted);opacity:.5;transition:opacity .2s;}
@@ -398,9 +399,35 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <button class="compare-btn" onclick="toggleCompare()" id="compare-toggle">🎯 Comparar técnicos</button>
   </div>
 
-  <div class="sl">Actividad por técnico</div>
+  <div class="sl">Matriz de Rendimiento Operativo (Cuadrante Volumen vs Fidelidad)</div>
+  <div class="cc full" style="animation-delay:.38s;margin-bottom:20px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      <div>
+        <div class="ct">Cuadrante Estratégico de Técnicos</div>
+        <div class="cs" style="margin-bottom:0">Eje X: Actividad Total (Comunicaciones + Seguimiento) · Eje Y: % Fidelidad (100% - % Perturbación) · Tamaño: Score</div>
+      </div>
+      <div class="lr" style="margin-top:0;">
+        <div class="li"><div class="ld" style="background:#4ff9b8"></div><span>Estrellas / Óptimo (&ge;85% fidelidad)</span></div>
+        <div class="li"><div class="ld" style="background:#f9d84f"></div><span>Alerta Moderada (65%–85%)</span></div>
+        <div class="li"><div class="ld" style="background:#f97c4f"></div><span>Riesgo / Crítico (&lt;65%)</span></div>
+      </div>
+    </div>
+    <div class="cw" style="height:360px;"><canvas id="tScatter"></canvas></div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+    <div class="sl" style="flex:1;margin-bottom:0;">Actividad detallada por técnico</div>
+    <div class="chip-group" id="view-selector">
+      <div class="chip active" onclick="switchTechChart('all',this)">Ver Todos (5)</div>
+      <div class="chip" onclick="switchTechChart('box-rk',this)">📞 Comunicaciones</div>
+      <div class="chip" onclick="switchTechChart('box-pe',this)">⚠️ Perturbaciones</div>
+      <div class="chip" onclick="switchTechChart('box-cx',this)">💻 Web vs Móvil</div>
+      <div class="chip" onclick="switchTechChart('box-sg',this)">📨 Seguimiento</div>
+      <div class="chip" onclick="switchTechChart('box-ci',this)">📅 Citas</div>
+    </div>
+  </div>
   
-  <div class="cc full" style="animation-delay:.4s;margin-bottom:20px;">
+  <div id="box-rk" class="cc full tech-chart-box" style="animation-delay:.4s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">Comunicaciones totales</div><div class="cs" style="margin-bottom:0">Atendidas + Salientes</div></div>
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
@@ -420,19 +447,17 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div id="rk-wrap" style="height:1200px; position:relative;"><canvas id="tRk"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.45s;margin-bottom:20px;">
+  <div id="box-pe" class="cc full tech-chart-box" style="animation-delay:.45s;margin-bottom:20px;">
     <div class="ct">Perturbaciones / Rechazos</div><div class="cs">🟢 ≤15% · 🟡 15%-35% · 🔴 &gt;35% (crítico)</div>
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tPe"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.5s;margin-bottom:20px;">
+  <div id="box-cx" class="cc full tech-chart-box" style="animation-delay:.5s;margin-bottom:20px;">
     <div class="ct">Conexión Web vs Móvil</div><div class="cs">Tipo de acceso</div>
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tCx"></canvas></div></div>
   </div>
   
-  <div class="sl">Seguimiento y citas por técnico</div>
-  
-  <div class="cc full" style="animation-delay:.55s;margin-bottom:20px;">
+  <div id="box-sg" class="cc full tech-chart-box" style="animation-delay:.55s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">No-Reply · Faros · Correos</div><div class="cs" style="margin-bottom:0">Seguimiento por técnico</div></div>
         <div class="radios" onclick="event.stopPropagation()">
@@ -445,7 +470,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
     <div class="cw scroller" style="overflow-y:auto; max-height:550px; padding-right:10px;"><div style="height:1200px; position:relative;"><canvas id="tSg"></canvas></div></div>
   </div>
   
-  <div class="cc full" style="animation-delay:.6s;margin-bottom:20px;">
+  <div id="box-ci" class="cc full tech-chart-box" style="animation-delay:.6s;margin-bottom:20px;">
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
         <div><div class="ct">Citas Remotas vs Presenciales</div><div class="cs" style="margin-bottom:0">Por técnico</div></div>
         <div class="radios" onclick="event.stopPropagation()">
@@ -491,7 +516,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;margin-bo
 const DATA = {"meses": {"labels": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], "values": [752, 859, 866, 673, 762, 901, 675, 179, 722, 315, 0, 0], "diasLab": [20, 20, 22, 20, 20, 22, 23, 21, 22, 21, 1, 1]}, "diasSemana": {"labels": ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], "values": [1380, 1463, 1396, 1400, 1050, 13, 2]}, "horas": {"labels": ["7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h"], "values": [29, 383, 1570, 1396, 1167, 960, 636, 275, 96, 87, 59, 30, 7, 6, 0]}, "topDias": [{"fecha": "13 Ene", "citas": 58}, {"fecha": "27 Ene", "citas": 57}, {"fecha": "23 Feb", "citas": 53}, {"fecha": "2 Jun", "citas": 53}, {"fecha": "18 Jun", "citas": 53}, {"fecha": "23 Jun", "citas": 52}, {"fecha": "11 May", "citas": 52}, {"fecha": "25 Feb", "citas": 52}], "heatmap": {"horas": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], "data": [[1, 4, 5, 1, 2, 5, 3, 1, 2, 5, 0, 0], [34, 43, 65, 46, 40, 47, 43, 10, 41, 14, 0, 0], [174, 189, 203, 159, 163, 218, 173, 48, 164, 79, 0, 0], [152, 169, 172, 137, 160, 192, 151, 45, 162, 56, 0, 0], [132, 150, 143, 124, 129, 150, 111, 34, 144, 50, 0, 0], [113, 141, 104, 93, 131, 121, 99, 27, 88, 43, 0, 0], [72, 87, 89, 58, 73, 95, 53, 6, 68, 35, 0, 0], [38, 36, 44, 26, 35, 34, 19, 5, 24, 14, 0, 0], [12, 11, 11, 10, 14, 13, 7, 0, 13, 5, 0, 0], [10, 9, 14, 11, 10, 11, 8, 2, 6, 6, 0, 0], [6, 9, 11, 7, 4, 10, 4, 0, 3, 5, 0, 0], [2, 11, 3, 1, 1, 2, 1, 1, 6, 2, 0, 0], [3, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0], [1, 0, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]}};
     DATA.meses.medias = DATA.meses.values.map((v,i) => parseFloat((v/DATA.meses.diasLab[i]).toFixed(1)));
     
-const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, "SALIENTES": 20}, "FEBRERO": {"PERTURBACION": 6, "ATENDIDAS": 113, "SALIENTES": 17}, "MARZO": {"PERTURBACION": 3, "ATENDIDAS": 113, "SALIENTES": 20}, "ABRIL": {"PERTURBACION": 13, "ATENDIDAS": 134, "SALIENTES": 21}, "MAYO": {"PERTURBACION": 31, "ATENDIDAS": 132, "SALIENTES": 37}, "JUNIO": {"PERTURBACION": 10, "ATENDIDAS": 105, "SALIENTES": 27}, "JULIO": {"PERTURBACION": 3, "ATENDIDAS": 107, "SALIENTES": 9}, "AGOSTO": {"PERTURBACION": 7, "ATENDIDAS": 124, "SALIENTES": 20}, "SEPTIEMBRE": {"PERTURBACION": 2, "ATENDIDAS": 87, "SALIENTES": 20}, "OCTUBRE": {"PERTURBACION": 5, "ATENDIDAS": 148, "SALIENTES": 12}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "RODRIGUEZ AREVALO ALBERTO", "at": 112, "pe": 8, "sa": 25}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 65, "pe": 2, "sa": 9}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 94, "pe": 0, "sa": 21}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 102, "pe": 14, "sa": 14}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 107, "pe": 11, "sa": 11}, {"n": "VIVAS LINARES MIGUEL", "at": 120, "pe": 5, "sa": 7}, {"n": "HERRERA PEREZ RAUL", "at": 129, "pe": 0, "sa": 11}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 32, "pe": 1, "sa": 6}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 97, "pe": 3, "sa": 21}, {"n": "FERREIRA DIAS KAIO", "at": 53, "pe": 4, "sa": 12}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 179, "pe": 14, "sa": 49}, {"n": "CHACON GONZALEZ ALVARO", "at": 44, "pe": 4, "sa": 0}, {"n": "MENDOZA TORREJON DAVID", "at": 14, "pe": 25, "sa": 0}, {"n": "DUCHEL BRAVO JAVIER", "at": 45, "pe": 3, "sa": 5}, {"n": "Martin Lara Marcos", "at": 37, "pe": 0, "sa": 12}]}, "GUARDIA": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 78, "SALIENTES": 6}, "FEBRERO": {"PERTURBACION": 7, "ATENDIDAS": 52, "SALIENTES": 2}, "MARZO": {"PERTURBACION": 1, "ATENDIDAS": 59, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 1, "ATENDIDAS": 52, "SALIENTES": 3}, "MAYO": {"PERTURBACION": 12, "ATENDIDAS": 78, "SALIENTES": 7}, "JUNIO": {"PERTURBACION": 1, "ATENDIDAS": 70, "SALIENTES": 1}, "JULIO": {"PERTURBACION": 4, "ATENDIDAS": 50, "SALIENTES": 2}, "AGOSTO": {"PERTURBACION": 6, "ATENDIDAS": 53, "SALIENTES": 3}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 43, "SALIENTES": 2}, "OCTUBRE": {"PERTURBACION": 2, "ATENDIDAS": 64, "SALIENTES": 7}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "MENDOZA TORREJON DAVID", "at": 1, "pe": 0, "sa": 0}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 27, "pe": 0, "sa": 1}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 63, "pe": 1, "sa": 1}, {"n": "FERREIRA DIAS KAIO", "at": 39, "pe": 0, "sa": 4}, {"n": "RODRIGUEZ AREVALO ALBERTO", "at": 35, "pe": 6, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 56, "pe": 3, "sa": 3}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 40, "pe": 13, "sa": 5}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 52, "pe": 0, "sa": 7}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 37, "pe": 1, "sa": 6}, {"n": "HERRERA PEREZ RAUL", "at": 45, "pe": 0, "sa": 0}, {"n": "DUCHEL BRAVO JAVIER", "at": 63, "pe": 1, "sa": 0}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 23, "pe": 0, "sa": 5}, {"n": "CHACON GONZALEZ ALVARO", "at": 41, "pe": 6, "sa": 0}, {"n": "VIVAS LINARES MIGUEL", "at": 35, "pe": 3, "sa": 3}, {"n": "Martin Lara Marcos", "at": 30, "pe": 0, "sa": 3}, {"n": "ISIDRO MATXINANDIARENA GORKA", "at": 12, "pe": 0, "sa": 0}]}, "FSM112": {"monthly": {"ENERO": {"PERTURBACION": 5, "ATENDIDAS": 115, "SALIENTES": 5}, "FEBRERO": {"PERTURBACION": 1, "ATENDIDAS": 62, "SALIENTES": 3}, "MARZO": {"PERTURBACION": 4, "ATENDIDAS": 72, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 3, "ATENDIDAS": 78, "SALIENTES": 5}, "MAYO": {"PERTURBACION": 5, "ATENDIDAS": 88, "SALIENTES": 32}, "JUNIO": {"PERTURBACION": 1, "ATENDIDAS": 70, "SALIENTES": 2}, "JULIO": {"PERTURBACION": 5, "ATENDIDAS": 55, "SALIENTES": 10}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 60, "SALIENTES": 8}, "SEPTIEMBRE": {"PERTURBACION": 3, "ATENDIDAS": 45, "SALIENTES": 4}, "OCTUBRE": {"PERTURBACION": 33, "ATENDIDAS": 68, "SALIENTES": 17}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "FERNANDEZ JIMENO DAVID", "at": 96, "pe": 0, "sa": 5}, {"n": "MENDOZA TORREJON DAVID", "at": 71, "pe": 36, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 69, "pe": 5, "sa": 24}, {"n": "SECA LOPEZ  IRVING", "at": 48, "pe": 1, "sa": 1}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 89, "pe": 1, "sa": 13}, {"n": "RODRIGUEZ MACIZO JUAN ABEL", "at": 13, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 71, "pe": 4, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 67, "pe": 0, "sa": 10}, {"n": "VICENTE GOMEZ MANUEL", "at": 69, "pe": 12, "sa": 21}, {"n": "MARTIN DEL REY ALVARO", "at": 25, "pe": 0, "sa": 3}, {"n": "SACRISTAN HITA CARLOS", "at": 58, "pe": 1, "sa": 8}, {"n": "FERREIRA DIAS KAIO", "at": 16, "pe": 0, "sa": 0}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 14, "pe": 0, "sa": 5}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 7, "pe": 0, "sa": 1}]}, "GUARDIA112": {"monthly": {"ENERO": {"PERTURBACION": 3, "ATENDIDAS": 32, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 31, "SALIENTES": 1}, "MARZO": {"PERTURBACION": 5, "ATENDIDAS": 37, "SALIENTES": 4}, "ABRIL": {"PERTURBACION": 1, "ATENDIDAS": 32, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 5, "ATENDIDAS": 49, "SALIENTES": 1}, "JUNIO": {"PERTURBACION": 2, "ATENDIDAS": 33, "SALIENTES": 4}, "JULIO": {"PERTURBACION": 5, "ATENDIDAS": 30, "SALIENTES": 1}, "AGOSTO": {"PERTURBACION": 2, "ATENDIDAS": 36, "SALIENTES": 5}, "SEPTIEMBRE": {"PERTURBACION": 2, "ATENDIDAS": 36, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 7, "ATENDIDAS": 39, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "SACRISTAN HITA CARLOS", "at": 49, "pe": 2, "sa": 1}, {"n": "MENDOZA TORREJON DAVID", "at": 28, "pe": 8, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 27, "pe": 2, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 18, "pe": 0, "sa": 2}, {"n": "IVANOV TODOROV STIVAN", "at": 19, "pe": 4, "sa": 0}, {"n": "MARTIN DEL REY ALVARO", "at": 28, "pe": 0, "sa": 6}, {"n": "VICENTE GOMEZ MANUEL", "at": 23, "pe": 5, "sa": 5}, {"n": "FERNANDEZ JIMENO DAVID", "at": 49, "pe": 9, "sa": 1}, {"n": "SECA LOPEZ  IRVING", "at": 34, "pe": 2, "sa": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 39, "pe": 0, "sa": 0}, {"n": "FERREIRA DIAS KAIO", "at": 40, "pe": 0, "sa": 1}, {"n": "Sanchez Gomez Roberto Carlos", "at": 1, "pe": 0, "sa": 0}]}, "TOTAL": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MARZO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "ABRIL": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JUNIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "JULIO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": []}};
+const GD = {"FSM": {"monthly": {"ENERO": {"PERTURBACION": 14, "ATENDIDAS": 167, "SALIENTES": 20}, "FEBRERO": {"PERTURBACION": 6, "ATENDIDAS": 113, "SALIENTES": 17}, "MARZO": {"PERTURBACION": 3, "ATENDIDAS": 113, "SALIENTES": 20}, "ABRIL": {"PERTURBACION": 13, "ATENDIDAS": 134, "SALIENTES": 21}, "MAYO": {"PERTURBACION": 31, "ATENDIDAS": 132, "SALIENTES": 37}, "JUNIO": {"PERTURBACION": 10, "ATENDIDAS": 105, "SALIENTES": 27}, "JULIO": {"PERTURBACION": 3, "ATENDIDAS": 107, "SALIENTES": 9}, "AGOSTO": {"PERTURBACION": 7, "ATENDIDAS": 124, "SALIENTES": 20}, "SEPTIEMBRE": {"PERTURBACION": 2, "ATENDIDAS": 87, "SALIENTES": 20}, "OCTUBRE": {"PERTURBACION": 5, "ATENDIDAS": 148, "SALIENTES": 12}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "RODRIGUEZ AREVALO ALBERTO", "at": 112, "pe": 8, "sa": 25}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 65, "pe": 2, "sa": 9}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 94, "pe": 0, "sa": 21}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 102, "pe": 14, "sa": 14}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 107, "pe": 11, "sa": 11}, {"n": "VIVAS LINARES MIGUEL", "at": 120, "pe": 5, "sa": 7}, {"n": "HERRERA PEREZ RAUL", "at": 129, "pe": 0, "sa": 11}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 32, "pe": 1, "sa": 6}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 97, "pe": 3, "sa": 21}, {"n": "FERREIRA DIAS KAIO", "at": 53, "pe": 4, "sa": 12}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 179, "pe": 14, "sa": 49}, {"n": "CHACON GONZALEZ ALVARO", "at": 44, "pe": 4, "sa": 0}, {"n": "MENDOZA TORREJON DAVID", "at": 14, "pe": 25, "sa": 0}, {"n": "DUCHEL BRAVO JAVIER", "at": 45, "pe": 3, "sa": 5}, {"n": "Martin Lara Marcos", "at": 37, "pe": 0, "sa": 12}]}, "GUARDIA": {"monthly": {"ENERO": {"PERTURBACION": 0, "ATENDIDAS": 78, "SALIENTES": 6}, "FEBRERO": {"PERTURBACION": 7, "ATENDIDAS": 52, "SALIENTES": 2}, "MARZO": {"PERTURBACION": 1, "ATENDIDAS": 59, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 1, "ATENDIDAS": 52, "SALIENTES": 3}, "MAYO": {"PERTURBACION": 12, "ATENDIDAS": 78, "SALIENTES": 7}, "JUNIO": {"PERTURBACION": 1, "ATENDIDAS": 70, "SALIENTES": 1}, "JULIO": {"PERTURBACION": 4, "ATENDIDAS": 50, "SALIENTES": 2}, "AGOSTO": {"PERTURBACION": 6, "ATENDIDAS": 53, "SALIENTES": 3}, "SEPTIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 43, "SALIENTES": 2}, "OCTUBRE": {"PERTURBACION": 2, "ATENDIDAS": 64, "SALIENTES": 7}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "MENDOZA TORREJON DAVID", "at": 1, "pe": 0, "sa": 0}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 27, "pe": 0, "sa": 1}, {"n": "HERRERA GUACHICHULLCA JAIRO", "at": 63, "pe": 1, "sa": 1}, {"n": "FERREIRA DIAS KAIO", "at": 39, "pe": 0, "sa": 4}, {"n": "RODRIGUEZ AREVALO ALBERTO", "at": 35, "pe": 6, "sa": 0}, {"n": "DUQUE VELASQUEZ CÉSAR", "at": 56, "pe": 3, "sa": 3}, {"n": "FERNANDEZ AGUADO FERNANDO", "at": 40, "pe": 13, "sa": 5}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 52, "pe": 0, "sa": 7}, {"n": "LARIOS MERCHAN JULIO MANUEL", "at": 37, "pe": 1, "sa": 6}, {"n": "HERRERA PEREZ RAUL", "at": 45, "pe": 0, "sa": 0}, {"n": "DUCHEL BRAVO JAVIER", "at": 63, "pe": 1, "sa": 0}, {"n": "VELASCO DE LA CRUZ JUAN ANTONIO", "at": 23, "pe": 0, "sa": 5}, {"n": "CHACON GONZALEZ ALVARO", "at": 41, "pe": 6, "sa": 0}, {"n": "VIVAS LINARES MIGUEL", "at": 35, "pe": 3, "sa": 3}, {"n": "Martin Lara Marcos", "at": 30, "pe": 0, "sa": 3}, {"n": "ISIDRO MATXINANDIARENA GORKA", "at": 12, "pe": 0, "sa": 0}]}, "FSM112": {"monthly": {"ENERO": {"PERTURBACION": 5, "ATENDIDAS": 115, "SALIENTES": 5}, "FEBRERO": {"PERTURBACION": 1, "ATENDIDAS": 62, "SALIENTES": 3}, "MARZO": {"PERTURBACION": 4, "ATENDIDAS": 72, "SALIENTES": 5}, "ABRIL": {"PERTURBACION": 3, "ATENDIDAS": 78, "SALIENTES": 5}, "MAYO": {"PERTURBACION": 5, "ATENDIDAS": 88, "SALIENTES": 32}, "JUNIO": {"PERTURBACION": 1, "ATENDIDAS": 70, "SALIENTES": 2}, "JULIO": {"PERTURBACION": 5, "ATENDIDAS": 55, "SALIENTES": 10}, "AGOSTO": {"PERTURBACION": 0, "ATENDIDAS": 60, "SALIENTES": 8}, "SEPTIEMBRE": {"PERTURBACION": 3, "ATENDIDAS": 45, "SALIENTES": 4}, "OCTUBRE": {"PERTURBACION": 33, "ATENDIDAS": 68, "SALIENTES": 17}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "FERNANDEZ JIMENO DAVID", "at": 96, "pe": 0, "sa": 5}, {"n": "MENDOZA TORREJON DAVID", "at": 71, "pe": 36, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 69, "pe": 5, "sa": 24}, {"n": "SECA LOPEZ  IRVING", "at": 48, "pe": 1, "sa": 1}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 89, "pe": 1, "sa": 13}, {"n": "RODRIGUEZ MACIZO JUAN ABEL", "at": 13, "pe": 0, "sa": 0}, {"n": "IVANOV TODOROV STIVAN", "at": 71, "pe": 4, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 67, "pe": 0, "sa": 10}, {"n": "VICENTE GOMEZ MANUEL", "at": 69, "pe": 12, "sa": 21}, {"n": "MARTIN DEL REY ALVARO", "at": 25, "pe": 0, "sa": 3}, {"n": "SACRISTAN HITA CARLOS", "at": 58, "pe": 1, "sa": 8}, {"n": "FERREIRA DIAS KAIO", "at": 16, "pe": 0, "sa": 0}, {"n": "IZQUIERDO OLIVA EDUARDO", "at": 14, "pe": 0, "sa": 5}, {"n": "CÉSAR BUSTAMANTE GUSTAVO", "at": 7, "pe": 0, "sa": 1}]}, "GUARDIA112": {"monthly": {"ENERO": {"PERTURBACION": 3, "ATENDIDAS": 32, "SALIENTES": 0}, "FEBRERO": {"PERTURBACION": 0, "ATENDIDAS": 31, "SALIENTES": 1}, "MARZO": {"PERTURBACION": 5, "ATENDIDAS": 37, "SALIENTES": 4}, "ABRIL": {"PERTURBACION": 1, "ATENDIDAS": 32, "SALIENTES": 0}, "MAYO": {"PERTURBACION": 5, "ATENDIDAS": 49, "SALIENTES": 1}, "JUNIO": {"PERTURBACION": 2, "ATENDIDAS": 33, "SALIENTES": 4}, "JULIO": {"PERTURBACION": 5, "ATENDIDAS": 30, "SALIENTES": 1}, "AGOSTO": {"PERTURBACION": 2, "ATENDIDAS": 36, "SALIENTES": 5}, "SEPTIEMBRE": {"PERTURBACION": 2, "ATENDIDAS": 36, "SALIENTES": 0}, "OCTUBRE": {"PERTURBACION": 7, "ATENDIDAS": 39, "SALIENTES": 0}, "NOVIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}, "DICIEMBRE": {"PERTURBACION": 0, "ATENDIDAS": 0, "SALIENTES": 0}}, "agents": [{"n": "SACRISTAN HITA CARLOS", "at": 49, "pe": 2, "sa": 1}, {"n": "MENDOZA TORREJON DAVID", "at": 28, "pe": 8, "sa": 0}, {"n": "PULIDO POZO IGNACIO", "at": 27, "pe": 2, "sa": 0}, {"n": "MARTIN ALONSO JULIAN", "at": 18, "pe": 0, "sa": 2}, {"n": "IVANOV TODOROV STIVAN", "at": 19, "pe": 4, "sa": 0}, {"n": "MARTIN DEL REY ALVARO", "at": 28, "pe": 0, "sa": 6}, {"n": "VICENTE GOMEZ MANUEL", "at": 23, "pe": 5, "sa": 5}, {"n": "FERNANDEZ JIMENO DAVID", "at": 49, "pe": 9, "sa": 1}, {"n": "SECA LOPEZ  IRVING", "at": 34, "pe": 2, "sa": 0}, {"n": "CERRADA RUIZ JOSE IGNACIO", "at": 39, "pe": 0, "sa": 0}, {"n": "FERREIRA DIAS KAIO", "at": 40, "pe": 0, "sa": 1}, {"n": "Sanchez Gomez Roberto Carlos", "at": 1, "pe": 0, "sa": 0}]}};
     const G_COLORS = {"FSM": "#4f9cf9", "GUARDIA": "#f97c4f", "FSM112": "#4ff9b8", "GUARDIA112": "#c94ff9"};
     const G_LABELS = {"FSM": "FSM", "GUARDIA": "Guardia", "FSM112": "FSM 112", "GUARDIA112": "Guardia 112"};
     const MESES_G = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
@@ -556,7 +581,7 @@ function generateInsights() {
     <div class="insight-card"><div class="insight-icon">📈</div><div class="insight-body"><div class="insight-title">Tendencia</div><div class="insight-text">El mes de <strong>${DATA.meses.labels[maxIdx]}</strong> concentró el <strong>${pM}%</strong> de todas las citas del periodo.</div></div></div>
     <div class="insight-card"><div class="insight-icon">⏰</div><div class="insight-body"><div class="insight-title">Pico horario</div><div class="insight-text">A las <strong>${peakHour}</strong> se produce la mayor actividad en la agenda.</div></div></div>
     <div class="insight-card"><div class="insight-icon">🗓️</div><div class="insight-body"><div class="insight-title">Patrón semanal</div><div class="insight-text">El <strong>${DATA.diasSemana.labels[maxDIdx]}</strong> es el día más productivo con <strong>${maxD}</strong> citas.</div></div></div>
-    <div class="insight-card"><div class="insight-icon">🎯</div><div class="insight-body"><div class="insight-title">Eficiencia</div><div class="insight-text">Media de <strong>${totC>0?(totC/62).toFixed(1):0}</strong> citas/día laborable.</div></div></div>
+    <div class="insight-card"><div class="insight-icon">🎯</div><div class="insight-body"><div class="insight-title">Eficiencia</div><div class="insight-text">Media de <strong>${totC>0?(totC/DATA.meses.diasLab.filter((d,i)=>DATA.meses.values[i]>0).reduce((a,b)=>a+b,0)).toFixed(1):0}</strong> citas/día laborable (${DATA.meses.diasLab.filter((d,i)=>DATA.meses.values[i]>0).reduce((a,b)=>a+b,0)} días).</div></div></div>
   `;
 
   // Guardias
@@ -578,8 +603,21 @@ function generateInsights() {
     <div class="insight-card"><div class="insight-icon">🏆</div><div class="insight-body"><div class="insight-title">Top agente</div><div class="insight-text"><strong>${topAg}</strong> lidera con <strong>${topAgAt}</strong> llamadas atendidas.</div></div></div>
   `;
 
-// Técnicos
+// Pre-cálculo de métricas avanzadas (Score de Eficiencia, % Remotas, Fidelidad)
   const excluidos = ['ALVARO', 'JUANJO', 'ANTONIO', 'MARCOS M', 'SERGIO A', 'SERGIO F', 'RUBEN JOGLAR'];
+  window.EXCLUIDOS_LIST = excluidos;
+  const maxComGlobal = Math.max(...TD.map(t => t.com), 1);
+  const maxSegGlobal = Math.max(...TD.map(t => t.nor + t.far + t.cor), 1);
+  TD.forEach(t => {
+    const pertPct = t.at > 0 ? (t.pert / t.at) * 100 : 0;
+    t.fidelidad = parseFloat(Math.max(0, 100 - pertPct).toFixed(1));
+    const totCi = t.crem + t.cpre;
+    t.pctRem = totCi > 0 ? parseFloat(((t.crem / totCi) * 100).toFixed(1)) : 0;
+    const normCom = (t.com / maxComGlobal) * 100;
+    const normSeg = ((t.nor + t.far + t.cor) / maxSegGlobal) * 100;
+    const penalty = Math.min(25, pertPct * 0.6);
+    t.score = Math.round(Math.max(0, Math.min(100, (normCom * 0.45) + (normSeg * 0.35) + (20 - penalty))));
+  });
   
   // Filtramos la lista para quitar a los nuevos (coincidencia exacta o que empiece por su nombre)
   const validTD = TD.filter(t => !excluidos.some(ex => t.n.toUpperCase() === ex || t.n.toUpperCase().startsWith(ex + " ")));
@@ -742,7 +780,7 @@ function buildG(){
   const vd={display:true,anchor:'end',align:'end',offset:4,rotation:-90,color:'rgba(255,255,255,.9)',
     font:{family:"'DM Mono',monospace",size:10,weight:'500'},formatter:v=>v>0?v.toLocaleString('es'):''};
 
-  const sk=Object.keys(GD);
+  const sk=Object.keys(GD).filter(k => k !== 'TOTAL' && G_LABELS[k]);
   function mkBar(id,met,lbl){
     const vs=sk.map(s=>Object.values(GD[s].monthly).reduce((a,m)=>a+m[met],0));
     const cs=sk.map(k=>G_COLORS[k]);
@@ -1000,17 +1038,19 @@ function buildT(){
   });
 
   const COLS=[
-    {k:'web',l:'Conexión Web',      p:'web', c:'var(--accent1)'},
-    {k:'mov',l:'Conexión Móvil',    p:'mov', c:'var(--accent4)'},
-    {k:'pert',l:'Perturbación',     p:'pert',c:'var(--accent2)'},
-    {k:'at', l:'Atendidas',         p:'at',  c:'var(--accent1)'},
-    {k:'sal',l:'Salientes',         p:'sal', c:'var(--accent3)'},
-    {k:'com',l:'Comunicaciones',    p:'com', c:'#e8eaf2'},
-    {k:'nor',l:'No-Reply',          p:'nor', c:'var(--accent2)'},
-    {k:'far',l:'Faros',             p:'far', c:'#f9d84f'},
-    {k:'cor',l:'Correos',           p:'cor', c:'var(--accent3)'},
-    {k:'crem',l:'Citas Remotas',    p:'crem',c:'var(--accent3)'},
-    {k:'cpre',l:'Citas Presenciales',p:'cpre',c:'var(--accent1)'},
+    {k:'score',l:'Score',           fl:'Score Global',       p:'score',c:'#4ff9b8'},
+    {k:'web',  l:'Web',             fl:'Conexión Web',       p:'web',  c:'var(--accent1)'},
+    {k:'mov',  l:'Móvil',           fl:'Conexión Móvil',     p:'mov',  c:'var(--accent4)'},
+    {k:'pert', l:'Perturb.',        fl:'Perturbación',       p:'pert', c:'var(--accent2)'},
+    {k:'at',   l:'Atendidas',       fl:'Atendidas',          p:'at',   c:'var(--accent1)'},
+    {k:'sal',  l:'Salientes',       fl:'Salientes',          p:'sal',  c:'var(--accent3)'},
+    {k:'com',  l:'Comunic.',        fl:'Comunicaciones',     p:'com',  c:'#e8eaf2'},
+    {k:'nor',  l:'No-Reply',        fl:'No-Reply',           p:'nor',  c:'var(--accent2)'},
+    {k:'far',  l:'Faros',           fl:'Faros',              p:'far',  c:'#f9d84f'},
+    {k:'cor',  l:'Correos',         fl:'Correos',            p:'cor',  c:'var(--accent3)'},
+    {k:'crem', l:'C. Remotas',      fl:'Citas Remotas',      p:'crem', c:'var(--accent3)'},
+    {k:'cpre', l:'C. Presenc.',     fl:'Citas Presenciales', p:'cpre', c:'var(--accent1)'},
+    {k:'pctRem',l:'% Digital',      fl:'% Citas Digitales',  p:'pctRem',c:'var(--accent4)'},
   ];
   let vis=new Set(COLS.map(c=>c.k));
 
@@ -1033,7 +1073,7 @@ function buildT(){
     });
     const mxV=Math.max(...sT.map(d => d[sP]),1);
 
-    const header = '<thead><tr><th class="'+(sortState.col==='#'?'sorted':'')+'" onclick="sortTable(\'#\')"># <span class="sort-icon">'+(sortState.col==='#'?(sortState.dir==='asc'?'▲':'▼'):'↕')+'</span></th><th onclick="sortTable(\'n\')" class="'+(sortState.col==='n'?'sorted':'')+'">Técnico <span class="sort-icon">'+(sortState.col==='n'?(sortState.dir==='asc'?'▲':'▼'):'↕')+'</span></th>'+cs.map(c=>`<th class="nc ${sortState.col===c.k?'sorted':''}" onclick="sortTable('${c.k}')" style="color:${c.c}">${c.l} <span class="sort-icon">${sortState.col===c.k?(sortState.dir==='asc'?'▲':'▼'):'↕'}</span></th>`).join('')+'<th style="width:70px">Rel.</th></tr></thead>';
+    const header = '<thead><tr><th style="width:28px" class="'+(sortState.col==='#'?'sorted':'')+'" onclick="sortTable(\'#\')"># <span class="sort-icon">'+(sortState.col==='#'?(sortState.dir==='asc'?'▲':'▼'):'↕')+'</span></th><th onclick="sortTable(\'n\')" class="'+(sortState.col==='n'?'sorted':'')+'">Técnico <span class="sort-icon">'+(sortState.col==='n'?(sortState.dir==='asc'?'▲':'▼'):'↕')+'</span></th>'+cs.map(c=>`<th title="${c.fl||c.l}" class="nc ${sortState.col===c.k?'sorted':''}" onclick="sortTable('${c.k}')" style="color:${c.c}">${c.l} <span class="sort-icon">${sortState.col===c.k?(sortState.dir==='asc'?'▲':'▼'):'↕'}</span></th>`).join('')+'<th style="width:55px">Rel.</th></tr></thead>';
     
     const body = '<tbody>'+sT.map((d,i)=>{
       return `<tr class="tech-row" onclick="openTechModal('${d.n}'); event.stopPropagation();"><td class="rank">${i+1}</td><td style="font-weight:500">${d.n}</td>`+cs.map(c=>{
@@ -1042,11 +1082,26 @@ function buildT(){
           let pct = d.at > 0 ? (d.pert / d.at) * 100 : 0;
           cl += pct > PERT_CRITICO ? ' nw' : pct > PERT_ALTO ? ' nw' : ' no';
         }
-        return `<td class="${cl}" style="color:${c.c}">${d[c.p].toLocaleString('es')}</td>`;
+        let valStr = c.k==='pctRem' ? d[c.p].toFixed(1)+'%' : c.k==='score' ? '⭐ '+d[c.p] : d[c.p].toLocaleString('es');
+        return `<td class="${cl}" style="color:${c.c};${c.k==='score'?'font-weight:700':''}">${valStr}</td>`;
       }).join('')+`<td><div class="bm"><div class="bmf" style="width:${(d[sP]/mxV*100).toFixed(0)}%"></div></div></td></tr>`;
     }).join('')+'</tbody>';
+
+    const validFiltered = sT.filter(t => !(window.EXCLUIDOS_LIST||[]).some(ex => t.n.toUpperCase() === ex || t.n.toUpperCase().startsWith(ex + " ")));
+    const baseAvg = validFiltered.length > 0 ? validFiltered : sT;
+    const foot = '<tfoot style="border-top:2px solid var(--border);background:rgba(79,156,249,0.06);font-weight:600;">' +
+      '<tr><td>Σ</td><td>TOTAL ('+sT.length+')</td>' + cs.map(c => {
+        if (c.k==='score' || c.k==='pctRem') return '<td class="nc" style="color:var(--muted)">—</td>';
+        const sumV = sT.reduce((acc, item) => acc + (item[c.p]||0), 0);
+        return `<td class="nc" style="color:${c.c}">${sumV.toLocaleString('es')}</td>`;
+      }).join('') + '<td></td></tr>' +
+      '<tr><td>μ</td><td>MEDIA CONSOLIDADA ('+baseAvg.length+')</td>' + cs.map(c => {
+        const avgV = baseAvg.length ? baseAvg.reduce((acc, item) => acc + (item[c.p]||0), 0) / baseAvg.length : 0;
+        const txt = c.k==='pctRem' ? avgV.toFixed(1)+'%' : c.k==='score' ? '⭐ '+Math.round(avgV) : Math.round(avgV).toLocaleString('es');
+        return `<td class="nc" style="color:${c.c}">${txt}</td>`;
+      }).join('') + '<td></td></tr></tfoot>';
     
-    document.getElementById('tTbl').innerHTML = header + body;
+    document.getElementById('tTbl').innerHTML = header + body + foot;
     
     // Sincronizar con el modal si está abierto
     const m = document.getElementById('tbl-modal');
@@ -1077,7 +1132,7 @@ function buildT(){
   function rOpts(){
     document.getElementById('tCO').innerHTML=COLS.map(c=>`<label style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;" onmouseenter="this.style.background='rgba(79,156,249,.08)'" onmouseleave="this.style.background='transparent'">
       <input type="checkbox" ${vis.has(c.k)?'checked':''} onchange="togCol('${c.k}',this.checked)" style="accent-color:${c.c};width:14px;height:14px;cursor:pointer;flex-shrink:0;"/>
-      <span style="font-size:.75rem;color:var(--text);">${c.l}</span>
+      <span style="font-size:.75rem;color:var(--text);">${c.fl||c.l}</span>
       <span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:${c.c};flex-shrink:0;"></span></label>`).join('');
   }
   function upd(){
@@ -1092,6 +1147,62 @@ function buildT(){
   window.selAllCols=(a)=>{if(a)COLS.forEach(c=>vis.add(c.k));else vis.clear();upd();rTbl();rOpts();};
   window.resetCols=()=>{COLS.forEach(c=>vis.add(c.k));upd();rTbl();rOpts();document.getElementById('tCP').style.display='none';};
   document.addEventListener('click',e=>{const p=document.getElementById('tCP'),b=document.getElementById('tCB');if(p&&!p.contains(e.target)&&b&&!b.contains(e.target))p.style.display='none';});
+  
+  // Cuadrante Scatter (Volumen vs Fidelidad)
+  const scatterPts = TD.map(d => {
+    const vol = d.com + d.nor + d.far + d.cor;
+    const fid = d.at > 0 ? Math.max(0, 100 - (d.pert / d.at) * 100) : 100;
+    return { x: vol, y: parseFloat(fid.toFixed(1)), r: Math.max(6, Math.round((d.score||50)/6)), name: d.n, score: d.score, pertPct: (100-fid).toFixed(1) };
+  });
+  new Chart(document.getElementById('tScatter'), {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        label: 'Técnicos',
+        data: scatterPts,
+        backgroundColor: scatterPts.map(p => p.y < 65 ? 'rgba(249,124,79,0.75)' : p.y < 85 ? 'rgba(249,216,79,0.75)' : 'rgba(79,249,184,0.75)'),
+        borderColor: scatterPts.map(p => p.y < 65 ? '#f97c4f' : p.y < 85 ? '#f9d84f' : '#4ff9b8'),
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { top: 20, right: 30, left: 10, bottom: 10 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          ...TT,
+          callbacks: {
+            label: ctx => {
+              const p = ctx.raw;
+              return `${p.name} · Score: ⭐${p.score} · Vol: ${p.x.toLocaleString('es')} · Fidelidad: ${p.y}% (Rech: ${p.pertPct}%)`;
+            }
+          }
+        },
+        datalabels: {
+          display: true,
+          align: 'top',
+          offset: 4,
+          color: '#e8eaf2',
+          font: { size: 9, family: "'DM Mono',monospace" },
+          formatter: v => v.name
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Volumen Operativo Total (Comunicaciones + Interacciones)', color: tc }, grid: { color: gc }, ticks: { color: tc } },
+        y: { title: { display: true, text: 'Índice de Fidelidad (%)', color: tc }, grid: { color: gc }, ticks: { color: tc }, min: 40, max: 105 }
+      }
+    }
+  });
+
+  window.switchTechChart = function(targetId, chipEl) {
+    document.querySelectorAll('#view-selector .chip').forEach(c => c.classList.remove('active'));
+    chipEl.classList.add('active');
+    document.querySelectorAll('#tc-tecnicos .tech-chart-box').forEach(box => {
+      box.style.display = (targetId === 'all' || box.id === targetId) ? 'block' : 'none';
+    });
+  };
+
   rTbl();
   initCounters(document.getElementById('tc-tecnicos'));
 }
@@ -1148,9 +1259,10 @@ window.downloadTechCSV = function(n) {
   const t = TD.find(x => x.n === n);
   if(!t) return;
 
-  const N = TD.length;
+  const validList = TD.filter(x => !(window.EXCLUIDOS_LIST||[]).some(ex => x.n.toUpperCase() === ex || x.n.toUpperCase().startsWith(ex + " ")));
+  const N = validList.length || TD.length;
   let tot = {com:0, at:0, sal:0, pert:0, web:0, mov:0, nor:0, far:0, cor:0, crem:0, cpre:0};
-  TD.forEach(x => { for(let k in tot) tot[k] += x[k]; });
+  validList.forEach(x => { for(let k in tot) tot[k] += x[k]; });
 
   const avg = {};
   for(let k in tot) avg[k] = Math.round(tot[k] / N);
@@ -1188,9 +1300,10 @@ window.openTechModal = function(n) {
   const t = TD.find(x => x.n === n);
   if(!t) return;
   
-  const N = TD.length;
+  const validList = TD.filter(x => !(window.EXCLUIDOS_LIST||[]).some(ex => x.n.toUpperCase() === ex || x.n.toUpperCase().startsWith(ex + " ")));
+  const N = validList.length || TD.length;
   let tot = {com:0, at:0, sal:0, pert:0, web:0, mov:0, nor:0, far:0, cor:0, crem:0, cpre:0};
-  TD.forEach(x => { for(let k in tot) tot[k] += x[k]; });
+  validList.forEach(x => { for(let k in tot) tot[k] += x[k]; });
   
   const avg = {};
   for(let k in tot) avg[k] = Math.round(tot[k] / N);
@@ -1210,9 +1323,13 @@ window.openTechModal = function(n) {
   document.getElementById('tech-modal-title').textContent = t.n;
   document.getElementById('tech-modal-download').onclick = () => downloadTechCSV(t.n);
 
-  const keys = ['at','sal','pert','com','nor','far','cor','crem','cpre'];
-  const labels = ['Atendidas','Salientes','Perturb.','Comunic.','No-Reply','Faros','Correos','C.Remot.','C.Presen.'];
-  const maxes = keys.map(k => Math.max(...TD.map(x => x[k]), 1));
+  const keys = ['score','at','sal','fidelidad','com','nor','far','cor','crem','cpre'];
+  const labels = ['Score','Atendidas','Salientes','Fidelidad (Sin Rech.)','Comunic.','No-Reply','Faros','Correos','C.Remot.','C.Presen.'];
+  const avgFidelidad = tot.at > 0 ? Math.max(0, 100 - (tot.pert / tot.at) * 100) : 100;
+  const avgScore = Math.round(validList.reduce((s,x)=>s+(x.score||0),0)/N);
+  avg.fidelidad = avgFidelidad;
+  avg.score = avgScore;
+  const maxes = keys.map(k => k==='fidelidad'||k==='score' ? 100 : Math.max(...TD.map(x => x[k]), 1));
   const dataT = keys.map((k,i) => (t[k]/maxes[i]*100).toFixed(1));
   const dataAvg = keys.map((k,i) => (avg[k]/maxes[i]*100).toFixed(1));
 
